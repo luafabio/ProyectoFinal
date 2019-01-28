@@ -1,5 +1,6 @@
 const errors = require('restify-errors');
 const Stop = require('../models/Stop');
+const Utils = require('../utils');
 
 module.exports = server => {
     server.get('/stops', async (req, res, next) => {
@@ -25,14 +26,22 @@ module.exports = server => {
     });
 
     server.post('/stops', async (req, res, next) => {
-        
+        let eta_stop = 0;
         if (!req.is('application/json')){
             return next(new errors.InvalidContentError("Expects 'application/json'"));
         }
 
-        const { name, lat, long, eta_stop, long_stop, status } = req.body;
+        const { num_stop, name, lat, long, long_stop, status } = req.body;
+        if (parseInt(num_stop) === 0) {
+            eta_stop = 0
+        } else {
+            const prev_stop = await Stop.findOne({num_stop: (num_stop - 1)});
+            summary = await Utils.rget([prev_stop.lat, prev_stop.long],[lat, long]);
+            eta_stop = summary.travelTime;
+        }
 
         const stop = new Stop({
+            num_stop, 
             name,
             lat,
             long,

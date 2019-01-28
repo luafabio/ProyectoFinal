@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const timestamp = require('mongoose-timestamp');
 
 const StopSchema = new mongoose.Schema({
+    num_stop: {
+        type: Number,
+        required: true,
+    },
     name: {
         type: String,
         required: true,
