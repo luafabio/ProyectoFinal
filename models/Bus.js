@@ -2,14 +2,24 @@ const mongoose = require('mongoose');
 const timestamp = require('mongoose-timestamp');
 
 const BusSchema = new mongoose.Schema({
-    name: {
-        type: String,
+    imei: {
+        type: Number,
         required: true,
         trim: true
-    }
+    },
+    lat: {
+        type: Number,
+        required: true,
+        trim: true
+    },
+    long: {
+        type: Number,
+        required: true,
+        trim: true
+    }, 
 });
 
 BusSchema.plugin(timestamp);
 
-const Stop = mongoose.model('Bus', BusSchema);
+const Bus = mongoose.model('Bus', BusSchema);
 module.exports = Bus;

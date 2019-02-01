@@ -58,7 +58,7 @@ module.exports = server => {
             return next(new errors.InternalError(err.message));
         }
     });
-
+// TODO agregar el re calculo de ETA
     server.put('/stops/:id', async (req, res, next) => {
         
         if (!req.is('application/json')){

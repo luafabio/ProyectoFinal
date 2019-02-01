@@ -6,6 +6,7 @@ const server = restify.createServer();
 
 //Middleware
 server.use(restify.plugins.bodyParser());
+server.use(restify.plugins.queryParser());
 
 server.listen(config.PORT, () => {
     mongoose.connect(
