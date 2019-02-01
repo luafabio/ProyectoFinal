@@ -14,7 +14,7 @@ module.exports = server => {
         
         console.log(bus);
         // a = await Utils.rget();
-        // res.send(a);
+        res.send();
         next();
 
         ;
