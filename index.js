@@ -22,5 +22,6 @@ db.on('error', (err) => console.log(err));
 db.once('open', () => {
     require('./routes/stops')(server);
     require('./routes/buses')(server);
+    require('./routes/bings')(server);
     console.log(`Server started on port ${config.PORT}`);
 });

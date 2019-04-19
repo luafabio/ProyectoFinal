@@ -16,7 +16,5 @@ module.exports = server => {
         // a = await Utils.rget();
         res.send();
         next();
-
-        ;
     });
 };
