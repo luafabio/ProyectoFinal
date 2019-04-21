@@ -4,16 +4,14 @@ const Utils = require('../utils');
 
 module.exports = server => {
     server.get('/buses', async (req, res, next) => {
-        console.log(req.query);
-        // const { imei, lat, long } = req.query;
-        // const bus = new Bus({
-        //     imei,
-        //     lat,
-        //     long
-        // });
+        const { imei, lat, long } = req.query;
+        const bus = new Bus({
+            imei,
+            lat,
+            long
+        });
         
-        // console.log(bus);
-        // a = await Utils.rget();
+        a = await Utils.rget();
         res.send();
         next();
     });

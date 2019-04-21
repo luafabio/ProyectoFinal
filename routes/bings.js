@@ -25,7 +25,29 @@ module.exports = server => {
     });
 
     server.post('/bing', async (req, res, next) => {
-        
+        let status = "New"
+        let bus_assign = 0
+
+        if (!req.is('application/json')){
+            return next(new errors.InvalidContentError("Expects 'application/json'"));
+        }
+
+        const { id_user, id_stop, time} = req.body;
+        const bing = new Bing({
+            id_user,
+            id_stop,
+            time,
+            bus_assign,
+            status
+        });
+
+        try {
+            const newBing = await bing.save();
+            res.send(201);
+            next();
+        } catch(err) {
+            return next(new errors.InternalError(err.message));
+        }
     });
 
     server.del('/bing/:id', async (req, res, next) => {
