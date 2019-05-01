@@ -17,6 +17,14 @@ const BusSchema = new mongoose.Schema({
         required: true,
         trim: true
     }, 
+    next_stop: {
+        type: Number,
+        required: true,
+    },
+    status: {
+        type: String,
+        required: true,
+    },
 });
 
 BusSchema.plugin(timestamp);
