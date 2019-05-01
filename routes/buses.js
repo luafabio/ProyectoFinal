@@ -10,8 +10,8 @@ module.exports = server => {
             lat,
             long
         });
-        
-        a = await Utils.rget();
+       console.log(bus); 
+//        a = await Utils.rget();
         res.send();
         next();
     });
