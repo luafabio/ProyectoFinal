@@ -19,12 +19,23 @@ const BusSchema = new mongoose.Schema({
     }, 
     next_stop: {
         type: Number,
+        default: 0,
+        required: true,
+    },
+    eta_next_stop: {
+        type: Number,
         required: true,
     },
     status: {
         type: String,
         required: true,
     },
+    attempts: {
+        type: Number,
+        default: 60,
+        required: true,
+    },
+
 });
 
 BusSchema.plugin(timestamp);

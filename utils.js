@@ -13,17 +13,15 @@ class Utils {
                 let data = '';
                 let summary = '';
 
-                let url = `https://route.api.here.com/routing/7.2/calculateroute.json?app_id=${APP_ID}&app_code=${APP_CODE}&waypoint0=geo!${pos1[0]},${pos1[1]}&waypoint1=geo!${pos2[0]},${pos2[1]}&mode=fastest;car;traffic:disabled`;
+                let url = `https://route.api.here.com/routing/7.2/calculateroute.json?app_id=${APP_ID}&app_code=${APP_CODE}&waypoint0=geo!${pos1.lat},${pos1.long}&waypoint1=geo!${pos2.lat},${pos2.long}&mode=fastest;car;traffic:disabled`;
 
                 https.get(url, (res) => {
-                    //console.log('statusCode:', res.statusCode);
-                    //console.log('headers:', res.headers);
-
                     res.on('data', (chunk) => {
                         data += chunk;
                     });
                     
                     res.on('end', () => {
+
                         data = JSON.parse(data);
                         resolve(data.response.route[0].summary);
                     });
@@ -31,7 +29,7 @@ class Utils {
                 }).on('error', (e) => {
                   reject(e);
                 })
-            })
+            });
 
             res.send('ok');
             next();
