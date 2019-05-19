@@ -29,6 +29,8 @@ module.exports = server => {
     server.post('/bing', async (req, res, next) => {
         let bus_assign = 0;
 
+        const {id_user, id_stop, time} = req.body;
+
         const bing = new Bing({
             id_user,
             id_stop,
@@ -39,7 +41,6 @@ module.exports = server => {
         if (!req.is('application/json')) {
             return next(new errors.InvalidContentError("Expects 'application/json'"));
         }
-        const {id_user, id_stop, time} = req.body;
 
         let buses = await Bus.find({},
             ['imei', 'next_stop', "status", "direction"],
@@ -60,14 +61,16 @@ module.exports = server => {
         );
 
         let stops_sum = 0;
-        for (let i = num_stop; i < this.stops.length; i++) {
-            let bus = findObjectByKey(buses, "next_stop", i); //TODO: hacer funcion dedicada
-            stops_sum += findObjectByKey(stops, "num_stop", i).eta_stop; //TODO: hacer funcion dedicada
-
-            if (bus !== null && bus.eta_next_stop + stops_sum > bing.time) {
-                bing.bus_assign = bus.imei;
-            }
-        }
+        // bus.num_stop = 0;
+        bing.bus_assign = 3;
+        // for (let i = num_stop; i < this.stops.length; i++) {
+        //     let bus = findObjectByKey(buses, "next_stop", i); //TODO: hacer funcion dedicada
+        //     stops_sum += findObjectByKey(stops, "num_stop", i).eta_stop; //TODO: hacer funcion dedicada
+        //
+        //     if (bus !== null && bus.eta_next_stop + stops_sum > bing.time) {
+        //         bing.bus_assign = bus.imei;
+        //     }
+        // }
 
 
         try {
