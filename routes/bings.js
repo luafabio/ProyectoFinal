@@ -59,11 +59,9 @@ module.exports = server => {
                 }
             }
         );
-
-        for (let i = bing.id_stop; i < stops.length -1; i++) { //TODO: cambiar esto teniendo en cuenta el retorno
-
-            let bus = await findObjectByKey(buses, "next_stop", i); //TODO: hacer funcion dedicada
-            let stop = await findObjectByKey(stops, "num_stop", i); //TODO: hacer funcion dedicada
+        for (let i = bing.id_stop; i !== 0; i--) { //TODO: cambiar esto teniendo en cuenta el retorno
+            let bus = await Utils.findObjectByKey(buses, "next_stop", i); //TODO: hacer funcion dedicada
+            let stop = await Utils.findObjectByKey(stops, "num_stop", i); //TODO: hacer funcion dedicada
             stops_sum += stop.eta_stop;
 
             if (bus !== null && bus.eta_next_stop + stops_sum > bing.time) {
@@ -94,13 +92,3 @@ module.exports = server => {
     })
 
 };
-
-//TODO mover a Utils
-async function findObjectByKey(array, key, value) {
-    for (var i = 0; i < array.length; i++) {
-        if (array[i][key] === value) {
-            return array[i];
-        }
-    }
-    return null;
-}

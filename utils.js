@@ -39,5 +39,18 @@ class Utils {
         }
     }
 
+    static async findObjectByKey(array, key, value) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i][key] === value) {
+                return array[i];
+            }
+        }
+        return null;
+    }
+
+    static async distance(bus, stop) {
+        return ((stop.lat - bus.lat) ^ 2 + (stop.long - bus.long) ^ 2) ^ (1 / 2)
+    }
+
 }
 module.exports = Utils;

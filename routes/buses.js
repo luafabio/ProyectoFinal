@@ -31,12 +31,12 @@ module.exports = server => {
                 bus.attempts = 0;
             }
 
-            distanceBusToStop = distance(bus, nextStop);
+            distanceBusToStop = Utils.distance(bus, nextStop);
 
             if (distanceBusToStop < nextStop.long_stop) {
                 bus.status = 'on_change'; //TODO: llevar los estados a constantes
 
-            } else if ((distance(bus, nextStop) >= nextStop.long_stop) && (nextStop.status === 'on_change')) {
+            } else if (distanceBusToStop >= nextStop.long_stop && (nextStop.status === 'on_change')) {
                 bus.next_stop++;
                 bus.status = "on";
             }
@@ -56,9 +56,4 @@ module.exports = server => {
 
         next();
     });
-
-    //TODO: llevar a Utils
-    function distance(bus, stop) {
-        return ((stop.lat - bus.lat) ^ 2 + (stop.long - bus.long) ^ 2) ^ (1 / 2)
-    }
 };
