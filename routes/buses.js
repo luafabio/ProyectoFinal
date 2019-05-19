@@ -5,7 +5,7 @@ const Utils = require('../utils');
 
 module.exports = server => {
     server.get('/buses', async (req, res, next) => {
-        const {imei, lat, long} = req.query;
+        const {imei, lat, long, next_stop} = req.query;
         let bus;
         let nextStop;
         let distanceBusToStop;
@@ -23,8 +23,7 @@ module.exports = server => {
 
             bus.attempts = 60; //TODO: sacar, solo para test
 
-            here = await Utils.rget(nextStop, bus);
-            bus.eta_next_stop = here.travelTime;
+            console.log(1, bus.attempts);
 
             if (bus.attempts === 60) { //TODO: llevar esto a constante
                 here = await Utils.rget(nextStop, bus);
@@ -46,7 +45,7 @@ module.exports = server => {
 
             res.send(200);
         } else {
-            bus = new Bus({imei, lat, long, next_stop: 1, status: "initial"});
+            bus = new Bus({imei, lat, long, next_stop, eta_next_stop: 0, status: "initial"});
             try {
                 const newBus = await bus.save();
                 res.send(201);

@@ -27,7 +27,7 @@ module.exports = server => {
     });
 
     server.post('/bing', async (req, res, next) => {
-        let bus_assign = 0;
+        let stops_sum = 0;
 
         const {id_user, id_stop, time} = req.body;
 
@@ -43,7 +43,7 @@ module.exports = server => {
         }
 
         let buses = await Bus.find({},
-            ['imei', 'next_stop', "status", "direction"],
+            ['imei', 'next_stop', "eta_next_stop", "status", "direction"],
             {
                 sort: {
                     next_stop: 1
@@ -60,17 +60,17 @@ module.exports = server => {
             }
         );
 
-        let stops_sum = 0;
-        // bus.num_stop = 0;
-        bing.bus_assign = 3;
-        // for (let i = num_stop; i < this.stops.length; i++) {
-        //     let bus = findObjectByKey(buses, "next_stop", i); //TODO: hacer funcion dedicada
-        //     stops_sum += findObjectByKey(stops, "num_stop", i).eta_stop; //TODO: hacer funcion dedicada
-        //
-        //     if (bus !== null && bus.eta_next_stop + stops_sum > bing.time) {
-        //         bing.bus_assign = bus.imei;
-        //     }
-        // }
+        for (let i = bing.id_stop; i < stops.length -1; i++) { //TODO: cambiar esto teniendo en cuenta el retorno
+
+            let bus = await findObjectByKey(buses, "next_stop", i); //TODO: hacer funcion dedicada
+            let stop = await findObjectByKey(stops, "num_stop", i); //TODO: hacer funcion dedicada
+            stops_sum += stop.eta_stop;
+
+            if (bus !== null && bus.eta_next_stop + stops_sum > bing.time) {
+                bing.bus_assign = bus.imei;
+                break;
+            }
+        }
 
 
         try {
@@ -96,7 +96,7 @@ module.exports = server => {
 };
 
 //TODO mover a Utils
-function findObjectByKey(array, key, value) {
+async function findObjectByKey(array, key, value) {
     for (var i = 0; i < array.length; i++) {
         if (array[i][key] === value) {
             return array[i];
