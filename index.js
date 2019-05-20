@@ -8,13 +8,13 @@ const server = restify.createServer();
 
 server.use(restify.CORS());
 
-server.opts(/.*/, function (req,res,next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", req.header("Access-Control-Request-Method"));
-    res.header("Access-Control-Allow-Headers", req.header("Access-Control-Request-Headers"));
-    res.send(200);
-    return next();
-});
+server.use(
+    function crossOrigin(req,res,next){
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        return next();
+    }
+);
 
 //Middleware
 server.use(restify.plugins.bodyParser());
