@@ -6,8 +6,6 @@ const Schedule = require('./schedule');
 
 const server = restify.createServer();
 
-server.use(restify.CORS());
-
 server.use(
     function crossOrigin(req,res,next){
         res.header("Access-Control-Allow-Origin", "*");
