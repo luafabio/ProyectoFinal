@@ -2,21 +2,23 @@ const restify = require('restify');
 const mongoose = require('mongoose');
 const cluster = require('cluster');
 const config = require('./config');
+const corsMiddleware = require('restify-cors-middleware');
 const Schedule = require('./schedule');
 
 const server = restify.createServer();
 
-server.use(
-    function crossOrigin(req,res,next){
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
-        return next();
-    }
-);
+const cors = corsMiddleware({
+    origins: ['*'],
+    allowHeaders: ['X-App-Version'],
+    exposeHeaders: []
+});
 
 //Middleware
 server.use(restify.plugins.bodyParser());
 server.use(restify.plugins.queryParser());
+
+server.pre(cors.preflight);
+server.use(cors.actual);
 
 
 if (cluster.isMaster) {
