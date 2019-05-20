@@ -9,7 +9,7 @@ const server = restify.createServer();
 
 const cors = corsMiddleware({
     origins: ['*'],
-    allowHeaders: ['X-App-Version'],
+    allowHeaders: ['Access-Control-Allow-Origin'],
     exposeHeaders: []
 });
 
