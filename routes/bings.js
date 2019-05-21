@@ -38,7 +38,7 @@ module.exports = server => {
             time,
             status: "created" //TODO llevar a constantes
         });
-
+            bing.bus_assign=5;
         if (!req.is('application/json')) {
             return next(new errors.InvalidContentError("Expects 'application/json'"));
         }
