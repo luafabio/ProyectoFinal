@@ -46,23 +46,23 @@ if (cluster.isMaster) {
 
 } else {
 
-    console.log(`Worker ${process.pid} is running`);
-
-    mongoose.connect(
-        config.MONGODB_URI,
-        {useNewUrlParser: true}
-    );
-
-    const db = mongoose.connection;
-
-    db.on('error', (err) => console.log(err));
-
-    db.once('open', () => {
-            // this.ci = setInterval(async () => {
-                let schedule = new Schedule();
-                schedule.getStops()
-            // },  60*1000); //TODO: llevar a constantes
-    });
+    // console.log(`Worker ${process.pid} is running`);
+    //
+    // mongoose.connect(
+    //     config.MONGODB_URI,
+    //     {useNewUrlParser: true}
+    // );
+    //
+    // const db = mongoose.connection;
+    //
+    // db.on('error', (err) => console.log(err));
+    //
+    // db.once('open', () => {
+    //         // this.ci = setInterval(async () => {
+    //             let schedule = new Schedule();
+    //             schedule.getStops()
+    //         // },  60*1000); //TODO: llevar a constantes
+    // });
 
 }
 
