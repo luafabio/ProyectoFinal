@@ -1,4 +1,4 @@
-'use strict';
+'USE strict';
 const https = require('https');
 
 const APP_ID = 'DWUWUsbBLzKwS97z12IJ';

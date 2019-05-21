@@ -27,6 +27,7 @@ module.exports = server => {
     });
 
     server.post('/bing', async (req, res, next) => {
+	    console.log('request');
         let stops_sum = 0;
 
         const {id_user, id_stop, time} = req.body;
