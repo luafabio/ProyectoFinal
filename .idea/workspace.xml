@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5fc606ea-5226-44ad-9fd1-bd4bcb36b545" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
-    </list>
+    <list default="true" id="5fc606ea-5226-44ad-9fd1-bd4bcb36b545" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +30,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="55">
@@ -77,11 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes/stops.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+            <state relative-caret-position="153">
+              <caret line="34" column="8" lean-forward="true" selection-start-line="34" selection-start-column="11" selection-end-line="40" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -138,13 +136,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/worker.js" />
-        <option value="$PROJECT_DIR$/routes/stops.js" />
         <option value="$PROJECT_DIR$/models/Bus.js" />
         <option value="$PROJECT_DIR$/utils.js" />
         <option value="$PROJECT_DIR$/routes/buses.js" />
         <option value="$PROJECT_DIR$/schedule.js" />
         <option value="$PROJECT_DIR$/routes/bings.js" />
         <option value="$PROJECT_DIR$/index.js" />
+        <option value="$PROJECT_DIR$/routes/stops.js" />
       </list>
     </option>
   </component>
@@ -237,12 +235,12 @@
       <workItem from="1558235993733" duration="12507000" />
       <workItem from="1558306646144" duration="589000" />
       <workItem from="1558311293970" duration="1583000" />
-      <workItem from="1558391962726" duration="2068000" />
+      <workItem from="1558391962726" duration="2689000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="39063000" />
+    <option name="totallyTimeSpent" value="39684000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="825" extended-state="0" />
@@ -380,13 +378,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/stops.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="39" column="30" lean-forward="true" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-410">
@@ -412,6 +403,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="55">
           <caret line="48" column="4" lean-forward="true" selection-start-line="48" selection-start-column="7" selection-end-line="64" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/stops.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="34" column="8" lean-forward="true" selection-start-line="34" selection-start-column="11" selection-end-line="40" selection-end-column="12" />
         </state>
       </provider>
     </entry>
