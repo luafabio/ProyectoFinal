@@ -23,16 +23,13 @@ module.exports = server => {
 
             bus.attempts = 60; //TODO: sacar, solo para test
 
-            console.log(1, bus.attempts);
-
             if (bus.attempts === 60) { //TODO: llevar esto a constante
                 here = await Utils.rget(nextStop, bus);
                 bus.eta_next_stop = here.travelTime;
                 bus.attempts = 0;
             }
 
-            distanceBusToStop = Utils.distance(bus, nextStop);
-
+            distanceBusToStop = await Utils.distance(bus, nextStop);
             if (distanceBusToStop < nextStop.long_stop) {
                 bus.status = 'on_change'; //TODO: llevar los estados a constantes
 
@@ -45,9 +42,12 @@ module.exports = server => {
 
             res.send(200);
         } else {
-            bus = new Bus({imei, lat, long, next_stop, eta_next_stop: 0, status: "initial"});
+            const stop = await Stop.findOne({ num_stop: 0 });
+            bus = new Bus({imei, lat, long, status: "initial"});
+            here = await Utils.rget(stop, bus); //TODO: suponer que se inicia del inicio (Pi = 0)
+            bus.eta_next_stop = here.travelTime;//TODO: llevar a constante en utils
             try {
-                const newBus = await bus.save();
+                await bus.save();
                 res.send(201);
             } catch (err) {
                 return next(new errors.InternalError(err.message));
@@ -55,5 +55,15 @@ module.exports = server => {
         }
 
         next();
+    });
+
+    server.get('/list-buses', async (req, res, next) => {
+        try {
+            const bus = await Bus.find({});
+            res.send(bus);
+            next();
+        } catch(err) {
+            return next(new errors.InvalidContentError(err));
+        }
     });
 };
