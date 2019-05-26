@@ -21,7 +21,7 @@ module.exports = server => {
             res.send(stop);
             next();
         } catch(err) {
-            return next(new errors.ResourceNotFoundError(`There is no customer with the id of ${req.params.id}`));
+            return next(new errors.ResourceNotFoundError(`There is no stop with the id of ${req.params.id}`));
         }
     });
 
@@ -32,13 +32,13 @@ module.exports = server => {
         }
 
         const { num_stop, name, lat, long, long_stop, status } = req.body;
-        // if (parseInt(num_stop) === 0) {
-        //     eta_stop = 0
-        // } else {
-        //     const prev_stop = await Stop.findOne({num_stop: (num_stop - 1)});
-        //     summary = await Utils.rget([prev_stop.lat, prev_stop.long],[lat, long]);
-        //     eta_stop = summary.travelTime;
-        // }
+        if (parseInt(num_stop) === 0) {
+            eta_stop = 0
+        } else {
+            const prev_stop = await Stop.findOne({num_stop: (num_stop - 1)});
+            summary = await Utils.rget([prev_stop.lat, prev_stop.long],[lat, long]);
+            eta_stop = summary.travelTime;
+        }
 
         const stop = new Stop({
             num_stop, 
@@ -70,7 +70,7 @@ module.exports = server => {
             res.send(200);
             next();
         } catch(err) {
-            return next(new errors.ResourceNotFoundError(`There is no customer with the id of ${req.params.id}`));
+            return next(new errors.ResourceNotFoundError(`There is no stop with the id of ${req.params.id}`));
         }
     });
 
@@ -81,7 +81,7 @@ module.exports = server => {
             res.send(204);
             next();
         } catch(err) {
-            return next(new errors.ResourceNotFoundError(`There is no customer with the id of ${req.params.id}`));
+            return next(new errors.ResourceNotFoundError(`There is no stop with the id of ${req.params.id}`));
         }
     });
     

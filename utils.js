@@ -8,7 +8,7 @@ const APP_CODE = 'DIvI1yH_EVpeRg7489J5SA';
 class Utils {
 
     static async rget(pos1, pos2) {  
-        try {
+        try { //TODO: handlear este try para que pueda seguir el proceso
             return new Promise((resolve, reject) => {
                 let data = '';
                 let summary = '';
@@ -23,7 +23,12 @@ class Utils {
                     res.on('end', () => {
 
                         data = JSON.parse(data);
-                        resolve(data.response.route[0].summary);
+                        if (data.response !== undefined && data.response.route[0] !== undefined) {
+
+                            resolve(data.response.route[0].summary);
+                        } else {
+                            console.log(pos1, pos2);
+                        }
                     });
 
                 }).on('error', (e) => {

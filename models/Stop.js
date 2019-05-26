@@ -4,6 +4,7 @@ const timestamp = require('mongoose-timestamp');
 const StopSchema = new mongoose.Schema({
     num_stop: {
         type: Number,
+        unique: true,
         required: true,
     },
     name: {

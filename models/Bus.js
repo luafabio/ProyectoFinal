@@ -19,7 +19,7 @@ const BusSchema = new mongoose.Schema({
     }, 
     next_stop: {
         type: Number,
-        default: 0,
+        default: 1,
         required: true,
     },
     eta_next_stop: {

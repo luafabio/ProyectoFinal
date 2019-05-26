@@ -30,9 +30,10 @@ if (cluster.isMaster) {
     server.listen(config.PORT, () => {
         mongoose.connect(
             config.MONGODB_URI,
-            {useNewUrlParser: true}
+            {useNewUrlParser: true, useCreateIndex: true}
         );
     });
+    console.log(`Server started at port: ${config.PORT}`);
 
     const db = mongoose.connection;
 
@@ -45,12 +46,11 @@ if (cluster.isMaster) {
     });
 
 } else {
-
     // console.log(`Worker ${process.pid} is running`);
     //
     // mongoose.connect(
     //     config.MONGODB_URI,
-    //     {useNewUrlParser: true}
+    //     {useNewUrlParser: true, useCreateIndex: true}
     // );
     //
     // const db = mongoose.connection;
@@ -58,10 +58,10 @@ if (cluster.isMaster) {
     // db.on('error', (err) => console.log(err));
     //
     // db.once('open', () => {
-    //         // this.ci = setInterval(async () => {
-    //             let schedule = new Schedule();
-    //             schedule.getStops()
-    //         // },  60*1000); //TODO: llevar a constantes
+    //     // this.ci = setInterval(async () => {
+    //     let schedule = new Schedule();
+    //     schedule.getStops()
+    //     // },  60*1000); //TODO: llevar a constantes
     // });
 
 }

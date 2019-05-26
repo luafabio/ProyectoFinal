@@ -21,18 +21,17 @@ class Schedule {
         await Stop.find({}).exec().then(res => {
             this.stops = res
         });
-        //
-        // for (let i = 0; i < this.stops.length; i++) {
-        //     if (i === this.stops.length - 1) {
-        //         position = await Utils.rget(this.stops[i], this.stops[0]);
-        //     } else {
-        //         position = await Utils.rget(this.stops[i], this.stops[i + 1]);
-        //     }
-        //
-        //     this.stops[i].eta_next_stop = position.travelTime;
-        //     this.stops[i].save();
-        // }
 
+        for (let i = 0; i < this.stops.length; i++) {
+            if (i === this.stops.length - 1) {
+                position = await Utils.rget(this.stops[i], this.stops[0]);
+            } else {
+                position = await Utils.rget(this.stops[i], this.stops[i + 1]);
+            }
+
+            this.stops[i].eta_next_stop = position.travelTime;
+            this.stops[i].save();
+        }
 
 
         await Bing.find({}).exec().then(res => {
@@ -45,6 +44,9 @@ class Schedule {
             await Bus.find({imei: this.bing.bus_assign}).exec().then(res => {
                 this.bus = res[0]
             });
+            if (this.bus === undefined) {
+                continue;
+            }
 
             eta = this.bus.eta_next_stop;
 
