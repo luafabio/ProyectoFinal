@@ -52,7 +52,7 @@ module.exports = server => {
             long_stop,
             status
         });
-
+        console.log(Stop.num_Stop, Stop.name, Stop.lat, Stop.long, Stop.eta_Stop, Stop.long, Stop.status);
         try {
             const newStop = await stop.save();
             res.send(201);
