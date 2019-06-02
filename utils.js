@@ -23,11 +23,11 @@ class Utils {
                     res.on('end', () => {
 
                         data = JSON.parse(data);
-                        // if (data.response !== undefined && data.response.route[0] !== undefined) {
-                        //     resolve(data.response.route[0].summary);
-                        // } else {
-                        //     console.log(pos1, pos2);
-                        // }
+                        if (data.response !== undefined && data.response.route[0] !== undefined) {
+                            resolve(data.response.route[0].summary);
+                        } else {
+                            console.log(pos1, pos2);
+                        }
                     });
 
                 }).on('error', (e) => {
