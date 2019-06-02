@@ -3,8 +3,6 @@ const Stop = require('../models/Stop');
 const Utils = require('../utils');
 
 module.exports = server => {
-    const STATUS_INITIAL = 'created';
-
     server.get('/stops', async (req, res, next) => {
 
         try {
@@ -33,7 +31,7 @@ module.exports = server => {
             return next(new errors.InvalidContentError("Expects 'application/json'"));
         }
 
-        const { num_stop, name, lat, long } = req.body;
+        const { num_stop, name, lat, long, status } = req.body;
         if (parseInt(num_stop) === 0) {
             eta_stop = 0
         } else {
@@ -44,7 +42,6 @@ module.exports = server => {
         }
 
         long_stop = 500;
-        status = STATUS_INITIAL;
 
         const stop = new Stop({
             num_stop, 
