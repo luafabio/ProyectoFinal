@@ -38,8 +38,9 @@ module.exports = server => {
             eta_stop = 0
         } else {
             const prev_stop = await Stop.findOne({num_stop: (num_stop - 1)});
-            summary = await Utils.rget([prev_stop.lat, prev_stop.long],[lat, long]);
-            eta_stop = summary.travelTime;
+            // summary = await Utils.rget([prev_stop.lat, prev_stop.long],[lat, long]);
+            // eta_stop = summary.travelTime;
+            eta_stop = 100;
         }
 
         long_stop = 500;
