@@ -36,9 +36,6 @@ class Utils {
                 })
             });
 
-            res.send('ok');
-            next();
-
         } catch(err) {
             return next(new errors.InvalidContentError(err));
         }

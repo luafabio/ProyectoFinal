@@ -4,6 +4,11 @@ const Stop = require('../models/Stop');
 const Utils = require('../utils');
 
 module.exports = server => {
+    const STATUS_INITIAL = 'initial';
+    const STATUS_ON = 'on';
+    const STATUS_ON_CHANGE = 'on_change';
+    const MAX_ATTEMPS = '60';
+
     server.get('/buses', async (req, res, next) => {
         const {imei, lat, long, next_stop} = req.query;
         let bus;
@@ -16,26 +21,26 @@ module.exports = server => {
         if (bus) {
             bus.lat = req.query.lat;
             bus.long = req.query.long;
-            bus.status = "on";
+            bus.status = STATUS_ON;
 
-            //TODO: factibilidad de asincronismo
             nextStop = await Stop.findOne({id: req.query.next_stop});
 
-            bus.attempts = 60; //TODO: sacar, solo para test
 
-            if (bus.attempts === 60) { //TODO: llevar esto a constante
+            if (bus.attempts === 0) {
                 here = await Utils.rget(nextStop, bus);
                 bus.eta_next_stop = here.travelTime;
-                bus.attempts = 0;
+                bus.attempts = MAX_ATTEMPS;
+            } else {
+                bus.attempts --;
             }
 
             distanceBusToStop = await Utils.distance(bus, nextStop);
             if (distanceBusToStop < nextStop.long_stop) {
-                bus.status = 'on_change'; //TODO: llevar los estados a constantes
+                bus.status = STATUS_ON_CHANGE;
 
-            } else if (distanceBusToStop >= nextStop.long_stop && (nextStop.status === 'on_change')) {
+            } else if (distanceBusToStop >= nextStop.long_stop && (nextStop.status === STATUS_ON_CHANGE)) {
                 bus.next_stop++;
-                bus.status = "on";
+                bus.status = STATUS_ON;
             }
 
             bus.save();
@@ -43,9 +48,9 @@ module.exports = server => {
             res.send(200);
         } else {
             const stop = await Stop.findOne({ num_stop: 0 });
-            bus = new Bus({imei, lat, long, status: "initial"});
+            bus = new Bus({imei, lat, long, status: STATUS_INITIAL});
             here = await Utils.rget(stop, bus); //TODO: suponer que se inicia del inicio (Pi = 0)
-            bus.eta_next_stop = here.travelTime;//TODO: llevar a constante en utils
+            bus.eta_next_stop = here.travelTime;
             try {
                 await bus.save();
                 res.send(201);

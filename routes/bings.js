@@ -5,9 +5,12 @@ const Stop = require('../models/Stop');
 const Utils = require('../utils');
 
 module.exports = server => {
+    const STATUS_INITIAL = 'created';
+
     server.get('/bing', async (req, res, next) => {
         try {
             const bings = await Bing.find({});
+
             res.send(bings);
             next();
         } catch (err) {
@@ -31,12 +34,11 @@ module.exports = server => {
         let stops_sum = 0;
 
         let {id_user, id_stop, time} = req.body;
-        time *= 60;
         const bing = new Bing({
             id_user,
             id_stop,
             time,
-            status: "created" //TODO llevar a constantes
+            status: STATUS_INITIAL
         });
 
         if (!req.is('application/json')) {
@@ -69,14 +71,14 @@ module.exports = server => {
             let bus = await Utils.findObjectByKey(buses, "next_stop", j);
             let stop = await Utils.findObjectByKey(stops, "num_stop", j);
             stops_sum += stop.eta_stop;
-            if (bus !== null && bus.eta_next_stop + stops_sum > bing.time) {
+            if (bus !== null && bus.eta_next_stop + stops_sum > bing.time * 60) {
                 bing.bus_assign = bus.imei;
                 break;
             }
             j--;
             i++;
         }
-
+        bing.name_stop = (await Utils.findObjectByKey(stops, "num_stop", bing.id_stop)).name;
 
         try {
             await bing.save();

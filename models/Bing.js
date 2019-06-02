@@ -10,6 +10,9 @@ const BingSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    name_stop: {
+        type: String,
+    },
     time: {
         type: Number,
         required: true,

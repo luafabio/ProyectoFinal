@@ -56,7 +56,7 @@ class Schedule {
                     eta += stop.eta_stop;
                 }
             }
-            if (eta <= this.bing.time) {
+            if (eta <= this.bing.time * 60) {
                 this.bing.status = "toDeliver"
             }
 
