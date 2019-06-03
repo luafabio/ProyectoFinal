@@ -18,15 +18,20 @@ class Schedule {
 
         let position;
 
-        await Stop.find({}).exec().then(res => {
-            this.stops = res
-        });
+        let stops = await Stop.find({status: {$ne: false}},
+            ['num_stop', 'name', "eta_stop", "status"],
+            {
+                sort: {
+                    num_stop: 1
+                }
+            }
+        );
 
         for (let i = 0; i < this.stops.length; i++) {
-            if (i === this.stops.length - 1) {
-                position = await Utils.rget(this.stops[i], this.stops[0]);
+            if (i === stops.length - 1) {
+                position = await Utils.rget(stops[i], stops[0]);
             } else {
-                position = await Utils.rget(this.stops[i], this.stops[i + 1]);
+                position = await Utils.rget(stops[i], stops[i + 1]);
             }
 
             this.stops[i].eta_next_stop = position.travelTime;
@@ -44,7 +49,7 @@ class Schedule {
             await Bus.find({imei: this.bing.bus_assign}).exec().then(res => {
                 this.bus = res[0]
             });
-            if (this.bus === undefined) {
+            if (this.bus === undefined && this.bus !== null) {
                 continue;
             }
 
@@ -52,7 +57,7 @@ class Schedule {
 
             for (let j = this.bus.next_stop; j <= this.bing.id_stop; j++) {
                 let stop = await Utils.findObjectByKey(this.stops, "num_stop", j);
-                if (stop !== undefined) {
+                if (stop !== undefined && stop !== null) {
                     eta += stop.eta_stop;
                 }
             }
@@ -61,7 +66,6 @@ class Schedule {
             }
 
         }
-
 
         console.log("sincronizacion finalizada");
     }

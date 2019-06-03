@@ -5,10 +5,19 @@ const Stop = require('../models/Stop');
 const Utils = require('../utils');
 
 module.exports = server => {
+
     const STATUS_INITIAL = 'created';
+    const BAD_REQUEST = 400;
+
 
     server.get('/bing', async (req, res, next) => {
         try {
+            // const {id_user} = req.query;
+            if (id_user === undefined) {
+                res.send(BAD_REQUEST, {"code": "ValidationError", "mesage": "Se debe ingresar un id de usuario"});
+            }
+
+            // const bings = await Bing.find({id_user: id_user});
             const bings = await Bing.find({});
 
             res.send(bings);
@@ -25,12 +34,12 @@ module.exports = server => {
             res.send(bing);
             next();
         } catch (err) {
-            return next(new errors.ResourceNotFoundError(`There is no alarm with the id of ${req.params.id}`));
+            return next(new errors.ResourceNotFoundError(`No existe la alarma con el id: ${req.params.id}`));
         }
     });
 
     server.post('/bing', async (req, res, next) => {
-	    console.log('request');
+        console.log('request');
         let stops_sum = 0;
 
         let {id_user, id_stop, time} = req.body;
@@ -54,7 +63,7 @@ module.exports = server => {
             }
         );
 
-        let stops = await Stop.find({},
+        let stops = await Stop.find({status: {$ne: false}},
             ['num_stop', 'name', "eta_stop", "status"],
             {
                 sort: {
@@ -62,6 +71,7 @@ module.exports = server => {
                 }
             }
         );
+
         let i = 0;
         let j = bing.id_stop;
         while (i < stops.length) {
@@ -70,7 +80,12 @@ module.exports = server => {
             }
             let bus = await Utils.findObjectByKey(buses, "next_stop", j);
             let stop = await Utils.findObjectByKey(stops, "num_stop", j);
-            stops_sum += stop.eta_stop;
+
+            if (stop !== null) {
+                stops_sum += stop.eta_stop;
+            }
+
+
             if (bus !== null && bus.eta_next_stop + stops_sum > bing.time * 60) {
                 bing.bus_assign = bus.imei;
                 break;
@@ -96,7 +111,7 @@ module.exports = server => {
             res.send(204);
             next();
         } catch (err) {
-            return next(new errors.ResourceNotFoundError(`There is no alarm with the id of ${req.params.id}`));
+            return next(new errors.ResourceNotFoundError(`No existe la alarma con el id: ${req.params.id}`));
         }
     })
 

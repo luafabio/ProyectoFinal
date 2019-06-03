@@ -32,7 +32,7 @@ const BusSchema = new mongoose.Schema({
     },
     attempts: {
         type: Number,
-        default: 60,
+        default: 0,
         required: true,
     },
 

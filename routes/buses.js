@@ -4,6 +4,7 @@ const Stop = require('../models/Stop');
 const Utils = require('../utils');
 
 module.exports = server => {
+
     const STATUS_INITIAL = 'initial';
     const STATUS_ON = 'on';
     const STATUS_ON_CHANGE = 'on_change';
@@ -49,7 +50,7 @@ module.exports = server => {
         } else {
             const stop = await Stop.findOne({ num_stop: 0 });
             bus = new Bus({imei, lat, long, status: STATUS_INITIAL});
-            here = await Utils.rget(stop, bus); //TODO: suponer que se inicia del inicio (Pi = 0)
+            here = await Utils.rget(stop, bus); //TODO: suponer que se inicia del inicio (Parada inicial = 0)
             bus.eta_next_stop = here.travelTime;
             try {
                 await bus.save();
