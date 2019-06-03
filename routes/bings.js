@@ -13,9 +13,9 @@ module.exports = server => {
     server.get('/bing', async (req, res, next) => {
         try {
             // const {id_user} = req.query;
-            if (id_user === undefined) {
-                res.send(BAD_REQUEST, {"code": "ValidationError", "mesage": "Se debe ingresar un id de usuario"});
-            }
+            // if (id_user === undefined) {
+            //     res.send(BAD_REQUEST, {"code": "ValidationError", "mesage": "Se debe ingresar un id de usuario"});
+            // }
 
             // const bings = await Bing.find({id_user: id_user});
             const bings = await Bing.find({});
