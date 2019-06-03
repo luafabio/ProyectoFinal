@@ -50,6 +50,8 @@ module.exports = server => {
             status: STATUS_INITIAL
         });
 
+        bing.bus_assign = 3;
+
         if (!req.is('application/json')) {
             return next(new errors.InvalidContentError("Expects 'application/json'"));
         }
@@ -93,6 +95,8 @@ module.exports = server => {
             j--;
             i++;
         }
+
+
         bing.name_stop = (await Utils.findObjectByKey(stops, "num_stop", bing.id_stop)).name;
 
         try {
