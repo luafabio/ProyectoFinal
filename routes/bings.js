@@ -95,9 +95,8 @@ module.exports = server => {
             j--;
             i++;
         }
-
-
-        bing.name_stop = (await Utils.findObjectByKey(stops, "num_stop", bing.id_stop)).name;
+        let search = await Utils.findObjectByKey(stops, "num_stop", bing.id_stop)
+        bing.name_stop = search.name;
 
         try {
             await bing.save();

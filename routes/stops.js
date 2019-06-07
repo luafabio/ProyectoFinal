@@ -70,7 +70,7 @@ module.exports = server => {
                 summary = await Utils.rget([prev_stop.lat, prev_stop.long], [lat, long]);
                 eta_stop = summary.travelTime;
             } catch (err) {
-                return next(new errors.InternalError("Error al consultar API externa. Intente nuevamente"));
+                // return next(new errors.InternalError("Error al consultar API externa. Intente nuevamente"));
             }
         }
 

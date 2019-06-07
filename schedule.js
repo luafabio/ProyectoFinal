@@ -63,6 +63,7 @@ class Schedule {
             }
             if (eta <= this.bing.time * 60) {
                 this.bing.status = "toDeliver"
+            //    enviar notificacion push
             }
 
         }
