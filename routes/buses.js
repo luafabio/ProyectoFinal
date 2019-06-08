@@ -11,7 +11,7 @@ module.exports = server => {
     const MAX_ATTEMPS = '60';
 
     server.get('/buses', async (req, res, next) => {
-        const {imei, lat, long, next_stop} = req.query;
+        const {imei, lat, long} = req.query;
         let bus;
         let nextStop;
         let distanceBusToStop;
@@ -49,9 +49,17 @@ module.exports = server => {
             res.send(200);
         } else {
             const stop = await Stop.findOne({ num_stop: 0 });
-            bus = new Bus({imei, lat, long, status: STATUS_INITIAL});
-            here = await Utils.rget(stop, bus); //TODO: suponer que se inicia del inicio (Parada inicial = 0)
-            bus.eta_next_stop = here.travelTime;
+            bus = new Bus({imei, lat, long, status: STATUS_INITIAL, nextStop: 0});
+            try {
+                here = await Utils.rget(stop, bus); //TODO: suponer que se inicia del inicio (Parada inicial = 0)
+                bus.eta_next_stop = here.travelTime;
+            } catch (ignored) {
+
+            }
+
+            if (bus.eta_next_stop === undefined) {
+                bus.eta_next_stop = 100;
+            }
             try {
                 await bus.save();
                 res.send(201);

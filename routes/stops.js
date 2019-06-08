@@ -4,7 +4,7 @@ const Utils = require('../utils');
 
 module.exports = server => {
 
-    const MAX_TRIES = 999;
+    const MAX_LONG = 999;
     const LONG_DEFAULT = 500;
     const BAD_REQUEST = 400;
 
@@ -32,7 +32,7 @@ module.exports = server => {
     });
 
     server.post('/stops', async (req, res, next) => {
-        let eta_stop = MAX_TRIES;
+        let eta_stop = MAX_LONG;
         let long_stop = LONG_DEFAULT;
         let summary;
 
