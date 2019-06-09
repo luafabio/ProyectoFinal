@@ -29,7 +29,7 @@ module.exports = server => {
 
             if (bus.attempts === 0) {
                 try {
-                    here = await Utils.rget(stop, bus); //TODO: suponer que se inicia del inicio (Parada inicial = 0)
+                    here = await Utils.rget(stop, bus);
                     bus.eta_next_stop = here.travelTime;
                 } catch (ignored) {}
                 bus.attempts = MAX_ATTEMPS;
@@ -42,16 +42,17 @@ module.exports = server => {
             }
 
             distanceBusToStop = await Utils.distance(bus, nextStop);
+
             if (distanceBusToStop < nextStop.long_stop) {
                 bus.status = STATUS_ON_CHANGE;
-
-            } else if (distanceBusToStop >= nextStop.long_stop && (nextStop.status === STATUS_ON_CHANGE)) {
+                console.log(STATUS_ON_CHANGE)
+            } else if (nextStop.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
                 bus.next_stop++;
                 bus.status = STATUS_ON;
+                console.log(STATUS_ON)
             }
 
             bus.save();
-
             res.send(200);
         } else {
             const stop = await Stop.findOne({ num_stop: 0 });
