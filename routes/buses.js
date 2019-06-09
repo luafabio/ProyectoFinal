@@ -42,6 +42,7 @@ module.exports = server => {
             }
 
             distanceBusToStop = await Utils.distance(bus, nextStop);
+            console.log(distanceBusToStop, nextStop.long_stop)
 
             if (distanceBusToStop < nextStop.long_stop) {
                 bus.status = STATUS_ON_CHANGE;
