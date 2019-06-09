@@ -28,11 +28,17 @@ module.exports = server => {
 
 
             if (bus.attempts === 0) {
-                here = await Utils.rget(nextStop, bus);
-                bus.eta_next_stop = here.travelTime;
+                try {
+                    here = await Utils.rget(stop, bus); //TODO: suponer que se inicia del inicio (Parada inicial = 0)
+                    bus.eta_next_stop = here.travelTime;
+                } catch (ignored) {}
                 bus.attempts = MAX_ATTEMPS;
             } else {
                 bus.attempts --;
+            }
+
+            if (bus.eta_next_stop === undefined) {
+                bus.eta_next_stop = 100;
             }
 
             distanceBusToStop = await Utils.distance(bus, nextStop);
@@ -50,6 +56,7 @@ module.exports = server => {
         } else {
             const stop = await Stop.findOne({ num_stop: 0 });
             bus = new Bus({imei, lat, long, status: STATUS_INITIAL, nextStop: 0});
+
             try {
                 here = await Utils.rget(stop, bus); //TODO: suponer que se inicia del inicio (Parada inicial = 0)
                 bus.eta_next_stop = here.travelTime;
@@ -60,6 +67,7 @@ module.exports = server => {
             if (bus.eta_next_stop === undefined) {
                 bus.eta_next_stop = 100;
             }
+
             try {
                 await bus.save();
                 res.send(201);
@@ -78,6 +86,17 @@ module.exports = server => {
             next();
         } catch(err) {
             return next(new errors.InvalidContentError(err));
+        }
+    });
+
+    server.get('/list-buses/:id', async (req, res, next) => {
+
+        try {
+            const bus = await Bus.findById(req.params.id);
+            res.send(bus);
+            next();
+        } catch (err) {
+            return next(new errors.ResourceNotFoundError(`No existe el colectivo con el id: ${req.params.id}`));
         }
     });
 };
