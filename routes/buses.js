@@ -14,7 +14,7 @@ module.exports = server => {
         const {imei, lat, long} = req.query;
         let bus;
         let nextStop;
-        let distanceBusToStop;
+        let distanceBusToStop = 0.0;
         let here;
 
         bus = await Bus.findOne({imei: req.query.imei});
@@ -24,7 +24,7 @@ module.exports = server => {
             bus.long = req.query.long;
             bus.status = STATUS_ON;
 
-            nextStop = await Stop.findOne({id: req.query.next_stop});
+            nextStop = await Stop.findOne({num_stop: bus.next_stop});
 
 
             if (bus.attempts === 0) {
@@ -40,14 +40,15 @@ module.exports = server => {
             if (bus.eta_next_stop === undefined) {
                 bus.eta_next_stop = 100;
             }
-
+            console.log(bus.lat, bus.long, nextStop.lat, nextStop.long)
             distanceBusToStop = await Utils.distance(bus, nextStop);
             console.log(distanceBusToStop, nextStop.long_stop)
 
             if (distanceBusToStop < nextStop.long_stop) {
                 bus.status = STATUS_ON_CHANGE;
                 console.log(STATUS_ON_CHANGE)
-            } else if (nextStop.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
+            }
+            if (nextStop.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
                 bus.next_stop++;
                 bus.status = STATUS_ON;
                 console.log(STATUS_ON)

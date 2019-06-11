@@ -5,7 +5,7 @@ const Utils = require('../utils');
 module.exports = server => {
 
     const MAX_LONG = 999;
-    const LONG_DEFAULT = 500;
+    const LONG_DEFAULT = 10;
     const BAD_REQUEST = 400;
 
 

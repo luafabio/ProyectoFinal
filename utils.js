@@ -7,7 +7,7 @@ const APP_CODE = 'DIvI1yH_EVpeRg7489J5SA';
 
 class Utils {
 
-    static async rget(pos1, pos2) {  
+    static async rget(pos1, pos2) {
         try {
             return new Promise((resolve, reject) => {
                 let data = '';
@@ -18,7 +18,7 @@ class Utils {
                     res.on('data', (chunk) => {
                         data += chunk;
                     });
-                    
+
                     res.on('end', (e) => {
 
                         data = JSON.parse(data);
@@ -30,11 +30,11 @@ class Utils {
                     });
 
                 }).on('error', (e) => {
-                  reject(e);
+                    reject(e);
                 })
             });
 
-        } catch(err) {
+        } catch (err) {
             return next(new errors.InvalidContentError(err));
         }
     }
@@ -49,8 +49,9 @@ class Utils {
     }
 
     static async distance(bus, stop) {
-        return ((stop.lat - bus.lat) ^ 2 + (stop.long - bus.long) ^ 2) ^ (1 / 2)
+        return Math.sqrt(Math.pow(stop.lat - bus.lat, 2) + Math.pow(stop.long - bus.long, 2)) * 10000
     }
 
 }
+
 module.exports = Utils;
