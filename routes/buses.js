@@ -48,7 +48,7 @@ module.exports = server => {
                 bus.status = STATUS_ON_CHANGE;
                 console.log(STATUS_ON_CHANGE)
             }
-            if (nextStop.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
+            if (bus.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
                 bus.next_stop++;
                 bus.status = STATUS_ON;
                 console.log(STATUS_ON)
