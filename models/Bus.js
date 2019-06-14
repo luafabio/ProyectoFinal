@@ -9,7 +9,7 @@ const BusSchema = new mongoose.Schema({
     },
     lat: {
         type: Number,
-        required: true,
+        required: false,
         trim: true
     },
     long: {
