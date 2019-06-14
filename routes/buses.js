@@ -83,6 +83,7 @@ module.exports = server => {
     // });
 
     server.get('/buses', async (req, res, next) => {
+        console.log(req.query);
         try {
             const {imei, lat, long} = req.query;
             bus = new Bus({imei, lat, long});
