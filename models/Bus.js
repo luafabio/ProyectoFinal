@@ -20,20 +20,20 @@ const BusSchema = new mongoose.Schema({
     next_stop: {
         type: Number,
         default: 1,
-        required: false,
+        required: true,
     },
     eta_next_stop: {
         type: Number,
-        required: false,
+        required: true,
     },
     status: {
         type: String,
-        required: false,
+        required: true,
     },
     attempts: {
         type: Number,
         default: 0,
-        required: false,
+        required: true,
     },
 
 });
