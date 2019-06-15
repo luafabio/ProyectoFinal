@@ -82,18 +82,6 @@ module.exports = server => {
         next();
     });
 
-    server.get('/busesd', async (req, res, next) => {
-        try {
-            const {imei, lat, long} = req.query;
-            bus = new Bus({imei, lat, long});
-            await bus.save();
-            res.send(201);
-            next();
-        } catch(err) {
-            return next(new errors.InvalidContentError(err));
-        }
-    });
-
     server.get('/list-buses', async (req, res, next) => {
         try {
             const bus = await Bus.find({});
