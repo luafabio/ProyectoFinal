@@ -6,7 +6,7 @@ const Utils = require('../utils');
 
 module.exports = server => {
 
-    const STATUS_INITIAL = 'created';
+    const STATUS_INITIAL = 'Creada';
     const BAD_REQUEST = 400;
 
 
@@ -18,7 +18,14 @@ module.exports = server => {
             // }
 
             // const bings = await Bing.find({id_user: id_user});
-            const bings = await Bing.find({});
+
+            let bings = await Bing.find({},{},
+                {
+                    sort: {
+                        createdAt: -1
+                    }
+                }
+            );
 
             res.send(bings);
             next();
