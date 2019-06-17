@@ -22,7 +22,6 @@ module.exports = server => {
         if (bus) {
             bus.lat = req.query.lat;
             bus.long = req.query.long;
-            bus.status = STATUS_ON;
 
             nextStop = await Stop.findOne({num_stop: bus.next_stop});
 
@@ -58,7 +57,7 @@ module.exports = server => {
             res.send(200);
         } else {
             const stop = await Stop.findOne({ num_stop: 0 });
-            bus = new Bus({imei, lat, long, status: STATUS_INITIAL, nextStop: 0});
+            bus = new Bus({imei, lat, long, status: STATUS_ON, nextStop: 0});
 
             try {
                 here = await Utils.rget(stop, bus); //TODO: suponer que se inicia del inicio (Parada inicial = 0)
