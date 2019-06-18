@@ -61,7 +61,6 @@ class Schedule {
                 let stop = await Utils.findObjectByKey(this.stops, "num_stop", j);
                 if (stop !== undefined && stop !== null) {
                     eta += stop.eta_stop;
-                    console.log(eta);
                 }
             }
             if (eta <= this.bing.time * 60) {
