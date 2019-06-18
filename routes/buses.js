@@ -88,7 +88,6 @@ module.exports = server => {
     });
 
     server.get('/list-buses/:id', async (req, res, next) => {
-
         try {
             const bus = await Bus.findById(req.params.id);
             res.send(bus);

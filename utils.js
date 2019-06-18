@@ -1,11 +1,34 @@
-'USE strict';
+'use strict';
 const https = require('https');
 
 const APP_ID = 'DWUWUsbBLzKwS97z12IJ';
 const APP_CODE = 'DIvI1yH_EVpeRg7489J5SA';
+const FCM = require('fcm-node');
 
 
 class Utils {
+
+    static async sendPush(id_user) {
+        let serverKey = id_user;
+        let fcm = new FCM(serverKey);
+
+        let message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+            to: 'fVKluztGKpc:APA91bHoRyC7Xtt1LdsqGwUEP5XE5NTVUuyBDRXyhg6GNw0WDNBKacIBb2Kr_2NK9JelohLG3xyvxw-Z3gdiEEJIkPRvYp88Bb6hxoFPDDB16L2Ar9nQy-Ld_54NKhkqcFCoDkBkuS6W',
+
+            notification: {
+                title: 'Title of your push notification',
+                body: 'Body of your push notification'
+            },
+        };
+
+        fcm.send(message, function(err, response){
+            if (err) {
+                console.log("Something has gone wrong!");
+            } else {
+                console.log("Successfully sent with response: ", response);
+            }
+        });
+    }
 
     static async rget(pos1, pos2) {
         try {
