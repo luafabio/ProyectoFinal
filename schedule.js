@@ -5,36 +5,39 @@ const Stop = require('./models/Stop');
 const Bing = require('./models/Bing');
 
 const Utils = require('./utils');
-const http = require('http')
+const FCM = require('fcm-node');
 
 const STATUS_ACTIVE ='Activa';
 const STATUS_FINISH = 'Finalizada';
 
 class Schedule {
 
-
-
     async sendPush() {
-
-        const options = {
-            hostname: 'https://fcm.googleapis.com/fcm',
-            path: '/send',
-            method: 'POST',
-            headers: {
-                'Authorization': 'key=AAAA2bmVM5g:APA91bG-qZT_7x8jsaSeQhx6NnLT3t0q-_R2CoJd2OI_X26Vq_zJ31ddMjlzJMmVIZj39bVnVGgpcOoeprRaMfdf_nBYHZerhKPmjYgJAJHPwTt_jCCfwuB3kQCkWsvjpDJqIY1UWWnM',
-                'Content-Type': 'application/json'
-            }
-        };
-
-        const req = http.request(options, (res) => {
-            res.on('end', () => {
-                console.log('No more data in response.');
-            });
-        });
-
-        req.on('error', (e) => {
-            console.error(`problem with request: ${e.message}`);
-        });
+        // let serverKey = 'YOURSERVERKEYHERE'; //put your server key here
+        // let fcm = new FCM(serverKey);
+        //
+        // let message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+        //     to: 'registration_token',
+        //     collapse_key: 'your_collapse_key',
+        //
+        //     notification: {
+        //         title: 'Title of your push notification',
+        //         body: 'Body of your push notification'
+        //     },
+        //
+        //     data: {  //you can send only notification or only data(or include both)
+        //         my_key: 'my value',
+        //         my_another_key: 'my another value'
+        //     }
+        // };
+        //
+        // fcm.send(message, function(err, response){
+        //     if (err) {
+        //         console.log("Something has gone wrong!");
+        //     } else {
+        //         console.log("Successfully sent with response: ", response);
+        //     }
+        // });
     }
 
     constructor() {
@@ -87,6 +90,7 @@ class Schedule {
                 let stop = await Utils.findObjectByKey(this.stops, "num_stop", j);
                 if (stop !== undefined && stop !== null) {
                     eta += stop.eta_stop;
+                    console.log(eta);
                 }
             }
             if (eta <= this.bing.time * 60) {

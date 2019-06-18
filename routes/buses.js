@@ -38,15 +38,12 @@ module.exports = server => {
             if (bus.eta_next_stop === undefined) {
                 bus.eta_next_stop = 100;
             }
-            console.log(bus.lat, bus.long, nextStop.lat, nextStop.long)
             distanceBusToStop = await Utils.distance(bus, nextStop);
-            console.log(distanceBusToStop, nextStop.long_stop)
 
             if (distanceBusToStop < nextStop.long_stop) {
                 bus.status = STATUS_ON_CHANGE;
             }
 
-            console.log(bus.status && distanceBusToStop >= nextStop.long_stop)
             if (bus.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
                 bus.next_stop++;
                 bus.status = STATUS_ON;
