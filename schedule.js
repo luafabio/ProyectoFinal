@@ -19,7 +19,7 @@ class Schedule {
 
         let position;
 
-        let stops = await Stop.find({status: {$ne: false}},
+        let stops = await Stop.find({status: {$ne: false}}, //TODO: Buscar en todos lados paradas no activas
             ['num_stop', 'name', "eta_stop", "status"],
             {
                 sort: {
@@ -40,10 +40,9 @@ class Schedule {
         // }
 
 
-        await Bing.find({}).exec().then(res => {
+        await Bing.find({}).exec().then(res => { // TODO: buscar alarmas no finalizadas
             this.bings = res
         });
-
         for (let i = 0; i < this.bings.length; i++) {
             this.bing = this.bings[i];
             this.bing.status = STATUS_ACTIVE;
@@ -51,6 +50,7 @@ class Schedule {
             await Bus.find({imei: this.bing.bus_assign}).exec().then(res => {
                 this.bus = res[0]
             });
+
             if (this.bus === undefined && this.bus !== null) {
                 continue;
             }
@@ -63,10 +63,12 @@ class Schedule {
                     eta += stop.eta_stop;
                 }
             }
-            if (eta <= this.bing.time * 60) {
+            if (eta <= this.bing.time * 60 && this.bing !== STATUS_FINISH) {
                 this.bing.status = STATUS_FINISH;
                 await Utils.sendPush(this.bing.id_user)
             }
+
+            this.bing.save();
 
         }
 
