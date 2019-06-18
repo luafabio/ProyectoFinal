@@ -59,9 +59,10 @@ if (cluster.isMaster) {
 
     db.once('open', () => {
         this.ci = setInterval(async () => {
-        let schedule = new Schedule();
-        schedule.getStops()
-    }, 1 * 1000)
+            let schedule = new Schedule();
+            schedule.getStops()
+        }, 1 * 1000)
+    })
 
 }
 
