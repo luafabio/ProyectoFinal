@@ -3,7 +3,7 @@ const timestamp = require('mongoose-timestamp');
 
 const BingSchema = new mongoose.Schema({
     id_user: {
-        type: Number,
+        type: String,
         required: true,
     },
     id_stop: {
