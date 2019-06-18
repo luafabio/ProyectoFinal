@@ -55,8 +55,6 @@ module.exports = server => {
             status: STATUS_INITIAL
         });
 
-        bing.bus_assign = 3;
-
         if (!req.is('application/json')) {
             return next(new errors.InvalidContentError("Expects 'application/json'"));
         }
@@ -81,18 +79,14 @@ module.exports = server => {
 
         let i = 0;
         let j = bing.id_stop;
+        console.log(stops.length);
         while (i < stops.length) {
-            if (j === 0) {
-                j = stops.length - 1;
-            }
             let bus = await Utils.findObjectByKey(buses, "next_stop", j);
             let stop = await Utils.findObjectByKey(stops, "num_stop", j);
 
             if (stop !== null) {
                 stops_sum += stop.eta_stop;
             }
-
-
             if (bus !== null && bus.eta_next_stop + stops_sum > bing.time * 60) {
                 bing.bus_assign = bus.imei;
                 break;
@@ -100,7 +94,7 @@ module.exports = server => {
             j--;
             i++;
         }
-        let search = await Utils.findObjectByKey(stops, "num_stop", bing.id_stop)
+        let search = await Utils.findObjectByKey(stops, "num_stop", bing.id_stop);
         bing.name_stop = search.name;
 
         try {
