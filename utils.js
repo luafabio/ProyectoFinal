@@ -9,11 +9,11 @@ const FCM = require('fcm-node');
 class Utils {
 
     static async sendPush(id_user) {
-        let serverKey = 'AAAA2bmVM5g:APA91bG-qZT_7x8jsaSeQhx6NnLT3t0q-_R2CoJd2OI_X26Vq_zJ31ddMjlzJMmVIZj39bVnVGgpcOoeprRaMfdf_nBYHZerhKPmjYgJAJHPwTt_jCCfwuB3kQCkWsvjpDJqIY1UWWnM;';
+        let serverKey = 'AAAA2bmVM5g:APA91bG-qZT_7x8jsaSeQhx6NnLT3t0q-_R2CoJd2OI_X26Vq_zJ31ddMjlzJMmVIZj39bVnVGgpcOoeprRaMfdf_nBYHZerhKPmjYgJAJHPwTt_jCCfwuB3kQCkWsvjpDJqIY1UWWnM';
         let fcm = new FCM(serverKey);
 
         let message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-            to: 'id_user',
+            to: id_user,
 
             notification: {
                 title: 'Title of your push notification',
