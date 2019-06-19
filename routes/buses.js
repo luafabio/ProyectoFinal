@@ -78,6 +78,7 @@ module.exports = server => {
     });
 
     server.get('/list-buses', async (req, res, next) => {
+        Utils.sendPush("fVKluztGKpc:APA91bHoRyC7Xtt1LdsqGwUEP5XE5NTVUuyBDRXyhg6GNw0WDNBKacIBb2Kr_2NK9JelohLG3xyvxw-Z3gdiEEJIkPRvYp88Bb6hxoFPDDB16L2Ar9nQy-Ld_54NKhkqcFCoDkBkuS6W")
         try {
             const bus = await Bus.find({});
             res.send(bus);

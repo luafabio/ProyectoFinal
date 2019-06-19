@@ -10,7 +10,6 @@ module.exports = server => {
 
 
     server.get('/stops', async (req, res, next) => { //TODO: agregar que devuelva solo los del usuario que los creo.
-
         try {
             const stops = await Stop.find({});
             res.send(stops);

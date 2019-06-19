@@ -9,11 +9,11 @@ const FCM = require('fcm-node');
 class Utils {
 
     static async sendPush(id_user) {
-        let serverKey = id_user;
+        let serverKey = 'AAAA2bmVM5g:APA91bG-qZT_7x8jsaSeQhx6NnLT3t0q-_R2CoJd2OI_X26Vq_zJ31ddMjlzJMmVIZj39bVnVGgpcOoeprRaMfdf_nBYHZerhKPmjYgJAJHPwTt_jCCfwuB3kQCkWsvjpDJqIY1UWWnM;';
         let fcm = new FCM(serverKey);
 
         let message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-            to: 'fVKluztGKpc:APA91bHoRyC7Xtt1LdsqGwUEP5XE5NTVUuyBDRXyhg6GNw0WDNBKacIBb2Kr_2NK9JelohLG3xyvxw-Z3gdiEEJIkPRvYp88Bb6hxoFPDDB16L2Ar9nQy-Ld_54NKhkqcFCoDkBkuS6W',
+            to: 'id_user',
 
             notification: {
                 title: 'Title of your push notification',
@@ -23,7 +23,7 @@ class Utils {
 
         fcm.send(message, function(err, response){
             if (err) {
-                console.log("Something has gone wrong!");
+                console.log("Something has gone wrong!", err);
             } else {
                 console.log("Successfully sent with response: ", response);
             }
