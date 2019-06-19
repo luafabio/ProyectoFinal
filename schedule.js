@@ -62,9 +62,9 @@ class Schedule {
                     eta += stop.eta_stop;
                 }
             }
-            if (eta <= this.bing.time * 60 && this.bing !== STATUS_FINISH) {
+            if (eta <= this.bing.time * 60 && this.bing.status!== STATUS_FINISH) {
                 this.bing.status = STATUS_FINISH;
-                await Utils.sendPush(this.bing.id_user)
+                Utils.sendPush(this.bing.id_user)
             }
 
             this.bing.save();
