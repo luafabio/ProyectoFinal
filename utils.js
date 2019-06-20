@@ -33,22 +33,22 @@ class Utils {
     static async rget(pos1, pos2) {
         try {
             return new Promise((resolve, reject) => {
-                let data = '';
-
+                let body = [];
                 let url = `https://route.api.here.com/routing/7.2/calculateroute.json?app_id=${APP_ID}&app_code=${APP_CODE}&waypoint0=geo!${pos1.lat},${pos1.long}&waypoint1=geo!${pos2.lat},${pos2.long}&mode=fastest;car;traffic:disabled`;
 
                 https.get(url, (res) => {
                     res.on('data', (chunk) => {
-                        data += chunk;
+                        body.push(chunk);
                     });
 
                     res.on('end', (e) => {
+                        let data = JSON.parse(Buffer.concat(body).toString());
 
-                        data = JSON.parse(data);
                         if (data.response !== undefined && data.response.route[0] !== undefined) {
                             resolve(data.response.route[0].summary);
                         } else {
                             reject(e);
+
                         }
                     });
 
@@ -56,7 +56,6 @@ class Utils {
                     reject(e);
                 })
             });
-
         } catch (err) {
             return next(new errors.InvalidContentError(err));
         }

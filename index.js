@@ -61,7 +61,7 @@ if (cluster.isMaster) {
         this.ci = setInterval(async () => {
             let schedule = new Schedule();
             schedule.getStops()
-        }, 1 * 1000)
+        }, 5 * 1000)
     })
 
 }

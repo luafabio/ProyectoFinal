@@ -16,11 +16,14 @@ class Schedule {
 
     async getStops() {
         console.log("Run Worker");
-
+        let bings = [];
+        let bing;
+        let stops = [];
+        let bus = {};
         let position;
 
-        let stops = await Stop.find({status: {$ne: false}}, //TODO: Buscar en todos lados paradas no activas
-            ['num_stop', 'name', "eta_stop", "status"],
+        stops = await Stop.find({status: {$ne: false}},
+            ['lat', 'long', 'num_stop', 'name', "eta_stop", "status"],
             {
                 sort: {
                     num_stop: 1
@@ -28,46 +31,57 @@ class Schedule {
             }
         );
 
-        // for (let i = 0; i < this.stops.length; i++) {
-        //     if (i === stops.length - 1) {
-        //         position = await Utils.rget(stops[i], stops[0]);
-        //     } else {
-        //         position = await Utils.rget(stops[i], stops[i + 1]);
+        // if (stops.length > 0) {
+        //     for (let i = 0; i < stops.length; i++) {
+        //         try{
+        //             if (i === stops.length - 1) {
+        //                 position = await Utils.rget(stops[i], stops[0]);
+        //             } else {
+        //                 position = await Utils.rget(stops[i], stops[i + 1]);
+        //             }
+        //         } catch (e) {
+        //         }
+        //         if (position !== undefined && position !== null) {
+        //             stops[i].eta_next_stop = position.travelTime;
+        //             stops[i].save();
+        //         }
         //     }
-        //
-        //     this.stops[i].eta_next_stop = position.travelTime;
-        //     this.stops[i].save();
+        // } else {
+        //     console.log("cannot get stops");
         // }
 
 
-        await Bing.find({}).exec().then(res => { // TODO: buscar alarmas no finalizadas
-            this.bings = res
+
+        await Bing.find({'status': {$ne: STATUS_FINISH}}).exec().then(res => {
+            bings = res
         });
-        for (let i = 0; i < this.bings.length; i++) {
-            this.bing = this.bings[i];
-            this.bing.status = STATUS_ACTIVE;
+
+        for (let i = 0; i < bings.length; i++) {
             let eta;
-            await Bus.find({imei: this.bing.bus_assign}).exec().then(res => {
-                this.bus = res[0]
+
+            bing = bings[i];
+            bing.status = STATUS_ACTIVE;
+            await Bus.find({imei: bing.bus_assign}).exec().then(res => {
+                bus = res[0]
             });
 
-            if (this.bus === undefined && this.bus !== null) {
+            if (bus === undefined || bus === null) {
                 continue;
             }
 
-            eta = this.bus.eta_next_stop;
-            for (let j = this.bus.next_stop; j <= this.bing.id_stop; j++) {
+            eta = bus.eta_next_stop;
+            for (let j = bus.next_stop; j <= bing.id_stop; j++) {
                 let stop = await Utils.findObjectByKey(stops, "num_stop", j);
                 if (stop !== undefined && stop !== null) {
                     eta += stop.eta_stop;
                 }
             }
-            if (eta <= this.bing.time * 60 && this.bing.status !== STATUS_FINISH) {
-                this.bing.status = STATUS_FINISH;
-                await Utils.sendPush(this.bing.id_user)
+            if (eta <= bing.time * 60 && bing.status !== STATUS_FINISH) {
+                bing.status = STATUS_FINISH;
+                await Utils.sendPush(bing.id_user)
             }
 
-            this.bing.save();
+            bing.save();
 
         }
 
