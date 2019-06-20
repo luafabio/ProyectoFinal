@@ -32,6 +32,24 @@ module.exports = server => {
         }
     });
 
+    server.get('/bings', async (req, res, next) => {
+        try {
+
+            let bings = await Bing.find({},{},
+                {
+                    sort: {
+                        createdAt: -1
+                    }
+                }
+            );
+
+            res.send(bings);
+            next();
+        } catch (err) {
+            return next(new errors.InvalidContentError(err));
+        }
+    });
+
     server.get('/bing/:id', async (req, res, next) => {
 
         try {
