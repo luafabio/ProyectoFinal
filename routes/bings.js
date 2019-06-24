@@ -97,7 +97,6 @@ module.exports = server => {
 
         let i = 0;
         let j = bing.id_stop;
-        console.log(stops.length);
         while (i < stops.length) {
             let bus = await Utils.findObjectByKey(buses, "next_stop", j);
             let stop = await Utils.findObjectByKey(stops, "num_stop", j);
@@ -127,7 +126,8 @@ module.exports = server => {
     server.del('/bing/:id', async (req, res, next) => {
 
         try {
-            const bing = await Bing.findOneAndRemove({_id: req.params.id});
+            const bing = await Bing.findOneAndRemove({imei: req.params.id});
+            bing.save();
             res.send(204);
             next();
         } catch (err) {
