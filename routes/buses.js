@@ -96,4 +96,16 @@ module.exports = server => {
             return next(new errors.ResourceNotFoundError(`No existe el colectivo con el id: ${req.params.id}`));
         }
     });
+
+    server.del('/bus/:id', async (req, res, next) => {
+
+        try {
+            const bus = await Bus.findOneAndDelete({imei: req.params.id});
+            bus.save();
+            res.send(204);
+            next();
+        } catch (err) {
+            return next(new errors.ResourceNotFoundError(`No existe la alarma con el id: ${req.params.id}`));
+        }
+    })
 };

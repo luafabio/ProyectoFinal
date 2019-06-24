@@ -126,8 +126,7 @@ module.exports = server => {
     server.del('/bing/:id', async (req, res, next) => {
 
         try {
-            const bing = await Bing.findOneAndRemove({imei: req.params.id});
-            bing.save();
+            const bing = await Bing.findOneAndRemove({_id: req.params.id});
             res.send(204);
             next();
         } catch (err) {

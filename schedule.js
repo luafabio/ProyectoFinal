@@ -15,7 +15,7 @@ class Schedule {
     }
 
     async getStops() {
-        console.log("Run Worker");
+        // console.log("Run Worker");
         let bings = [];
         let bing;
         let stops = [];
@@ -85,7 +85,7 @@ class Schedule {
 
         }
 
-        console.log("sincronizacion finalizada");
+        // console.log("sincronizacion finalizada");
     }
 }
 
