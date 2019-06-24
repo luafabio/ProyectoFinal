@@ -85,7 +85,7 @@ class Schedule {
 
         }
 
-        // console.log("sincronizacion finalizada");
+        console.log("sincronizacion finalizada");
     }
 }
 
