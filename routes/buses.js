@@ -52,7 +52,12 @@ module.exports = server => {
             bus.save();
             res.send(200);
         } else {
-            const stop = await Stop.findOne({ num_stop: 0 });
+            if (req.query.next_stop === undefined) {
+                nextStop = 0;
+            } else {
+                nextStop = req.query.next_stop;
+            }
+            const stop = await Stop.findOne({ num_stop: nextStop});
             bus = new Bus({imei, lat, long, status: STATUS_ON, nextStop: 0});
 
             try {
