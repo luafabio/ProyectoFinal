@@ -25,15 +25,15 @@ module.exports = server => {
             nextStop = await Stop.findOne({num_stop: bus.next_stop});
 
 
-            if (bus.attempts === 0) {
+            // if (bus.attempts === 0) {
                 try {
                     here = await Utils.rget(stop, bus);
                     bus.eta_next_stop = here.travelTime;
                 } catch (ignored) {}
                 bus.attempts = MAX_ATTEMPS;
-            } else {
-                bus.attempts --;
-            }
+            // } else {
+            //     bus.attempts --;
+            // }
 
             if (bus.eta_next_stop === undefined) {
                 bus.eta_next_stop = 100;
