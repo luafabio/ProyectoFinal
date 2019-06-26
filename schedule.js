@@ -83,10 +83,12 @@ class Schedule {
 
             let eta = 0;
             eta = bus.eta_next_stop;
+            console.log(eta);
             for (let j = bus.next_stop; j < bing.id_stop; j++) {
                 let stop = await Utils.findObjectByKey(stops, "num_stop", j);
                 if (stop !== undefined && stop !== null) {
                     eta += stop.eta_stop;
+                    console.log(j, eta);
                 }
             }
             console.log(eta);
