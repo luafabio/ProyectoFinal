@@ -16,8 +16,8 @@ class Utils {
             to: id_user,
 
             notification: {
-                title: 'Title of your push notification',
-                body: 'Body of your push notification'
+                title: 'Hermes',
+                body: 'Tu colectivo se acerca a la parada!'
             },
         };
 
