@@ -90,6 +90,8 @@ class Schedule {
                 }
             }
             console.log(eta);
+            console.log(bing.time * 60);
+            console.log(bing.status !== STATUS_FINISH);
             if (eta <= bing.time * 60 && bing.status !== STATUS_FINISH) {
                 console.log(1);
                 bing.status = STATUS_FINISH;
