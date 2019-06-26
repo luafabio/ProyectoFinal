@@ -7,7 +7,7 @@ module.exports = server => {
 
     const STATUS_ON = 'on';
     const STATUS_ON_CHANGE = 'on_change';
-    const MAX_ATTEMPS = '60';
+    const MAX_ATTEMPS = '3';
 
     server.get('/buses', async (req, res, next) => {
         const {imei, lat, long} = req.query;
@@ -47,6 +47,10 @@ module.exports = server => {
             if (bus.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
                 bus.next_stop++;
                 bus.status = STATUS_ON;
+                try {
+                    here = await Utils.rget(stop, bus);
+                    bus.eta_next_stop = here.travelTime;
+                } catch (ignored) {}
             }
 
             bus.save();
