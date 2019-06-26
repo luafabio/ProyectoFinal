@@ -31,24 +31,24 @@ class Schedule {
             }
         );
         //Calcula el tiempo a la siguiente parada. Ej: parada 16: eta = xx tiempo para llegar a parada 17
-        // if (stops.length > 0) {
-        //     for (let i = 0; i < stops.length; i++) {
-        //         try{
-        //             if (i === stops.length - 1) {
-        //                 position = await Utils.rget(stops[i], stops[0]);
-        //             } else {
-        //                 position = await Utils.rget(stops[i], stops[i + 1]);
-        //             }
-        //         } catch (e) {
-        //         }
-        //         if (position !== undefined && position !== null) {
-        //             stops[i].eta_next_stop = position.travelTime;
-        //             stops[i].save();
-        //         }
-        //     }
-        // } else {
-        //     console.log("cannot get stops");
-        // }
+        if (stops.length > 0) {
+            for (let i = 0; i < stops.length; i++) {
+                try{
+                    if (i === stops.length - 1) {
+                        position = await Utils.rget(stops[i], stops[0]);
+                    } else {
+                        position = await Utils.rget(stops[i], stops[i + 1]);
+                    }
+                } catch (e) {
+                }
+                if (position !== undefined && position !== null) {
+                    stops[i].eta_next_stop = position.travelTime;
+                    stops[i].save();
+                }
+            }
+        } else {
+            console.log("cannot get stops");
+        }
 
 
 
@@ -63,8 +63,6 @@ class Schedule {
         // }
 
         for (let i = 0; i < bings.length; i++) {
-            let eta;
-
             bing = bings[i];
             bing.status = STATUS_ACTIVE;
             await Bus.find({imei: bing.bus_assign}).exec().then(res => {
@@ -82,6 +80,8 @@ class Schedule {
             } catch (ignored) {
 
             }
+
+            let eta = 0;
             eta = bus.eta_next_stop;
             for (let j = bus.next_stop; j < bing.id_stop; j++) {
                 let stop = await Utils.findObjectByKey(stops, "num_stop", j);
