@@ -57,6 +57,12 @@ class Schedule {
         });
 
         for (let i = 0; i < bings.length; i++) {
+            let nextStop = bus.next_stop;
+            let here = await Utils.rget(stops.bus.next_stop, bus);
+            bus.eta_next_stop = here.travelTime;
+        }
+
+        for (let i = 0; i < bings.length; i++) {
             let eta;
 
             bing = bings[i];
@@ -64,11 +70,18 @@ class Schedule {
             await Bus.find({imei: bing.bus_assign}).exec().then(res => {
                 bus = res[0]
             });
-
             if (bus === undefined || bus === null) {
                 continue;
             }
 
+            try {
+                let nextStop = bus.next_stop;
+                let here = await Utils.rget(stops[nextStop], bus);
+                bus.eta_next_stop = here.travelTime;
+                bus.save();
+            } catch (ignored) {
+
+            }
             eta = bus.eta_next_stop;
             for (let j = bus.next_stop; j <= bing.id_stop; j++) {
                 let stop = await Utils.findObjectByKey(stops, "num_stop", j);
