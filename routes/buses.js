@@ -53,12 +53,13 @@ module.exports = server => {
             res.send(200);
         } else {
             if (req.query.next_stop === undefined) {
-                nextStop = 0;
+                nextStop = 1;
             } else {
                 nextStop = req.query.next_stop;
             }
+
             const stop = await Stop.findOne({ num_stop: nextStop});
-            bus = new Bus({imei, lat, long, status: STATUS_ON, nextStop: nextStop});
+            bus = new Bus({imei, lat, long, status: STATUS_ON, next_stop: nextStop});
 
             try {
                 here = await Utils.rget(stop, bus);
