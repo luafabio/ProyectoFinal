@@ -32,7 +32,7 @@ module.exports = server => {
             if (bus.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
                 bus.next_stop++;
                 bus.status = STATUS_ON;
-                bus.eta_next_stop = await calculateDistance(bus, nextStop);
+                bus.eta_next_stop = await Utils.calculateDistance(bus, nextStop);
             }
 
             await bus.save();

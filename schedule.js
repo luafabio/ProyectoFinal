@@ -81,12 +81,12 @@ class Schedule {
                     eta += stop.eta_stop;
                 }
             }
-            console.log("eta: " + eta);
+            console.log("eta: ", eta);
             if (eta <= (bing.time * 60 + 60) && bing.status !== STATUS_FINISH) {
                 bing.status = STATUS_FINISH;
                 await Utils.sendPush(bing.id_user);
-                bing.save();
             }
+            bing.save();
         }
 
         console.log("sincronizacion finalizada");
