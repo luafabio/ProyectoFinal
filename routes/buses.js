@@ -30,7 +30,7 @@ module.exports = server => {
             }
 
             if (bus.eta_next_stop === undefined) {
-                bus.eta_next_stop = nextStop.eta_stop / 4;
+                Number.parseInt(bus.eta_next_stop = nextStop.eta_stop / 4);
             }
 
             distanceBusToStop = await Utils.distance(bus, nextStop);
@@ -49,7 +49,7 @@ module.exports = server => {
                 // }
                 //
                 // if (bus.eta_next_stop === undefined) {
-                    bus.eta_next_stop = nextStop.eta_stop / 4;
+                Number.parseInt(bus.eta_next_stop = nextStop.eta_stop / 4);
                 // }
             }
 
