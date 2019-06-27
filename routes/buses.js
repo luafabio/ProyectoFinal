@@ -47,7 +47,7 @@ module.exports = server => {
 
             const stop = await Stop.findOne({ num_stop: nextStop});
             bus = new Bus({imei, lat, long, status: STATUS_ON, next_stop: nextStop});
-            bus.eta_next_stop = Utils.calculateDistance(bus, stop);
+            bus.eta_next_stop = await Utils.calculateDistance(bus, stop);
 
             try {
                 await bus.save();

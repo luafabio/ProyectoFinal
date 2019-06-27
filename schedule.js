@@ -69,7 +69,7 @@ class Schedule {
 
             let nextStop = bus.next_stop;
 
-            bus.eta_next_stop = Utils.calculateDistance(bus, stops[nextStop]);
+            bus.eta_next_stop = await Utils.calculateDistance(bus, stops[nextStop]);
 
             bus.save();
 
