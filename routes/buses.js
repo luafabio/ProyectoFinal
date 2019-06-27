@@ -23,16 +23,17 @@ module.exports = server => {
             bus.long = req.query.long;
 
             nextStop = await Stop.findOne({num_stop: bus.next_stop});
-            console.log(nextStop.lat);
-            console.log(bus.lat);
-
+            let ens = 0;
             // if (bus.attempts === 0) {
                 try {
                     here = await Utils.rget(bus, nextStop);
-                    bus.eta_next_stop = here.travelTime;
+                    ens = here.travelTime;
+                    console.log(ens);
                 } catch (ignored) {
                     console.log("error")
                 }
+            bus.eta_next_stop = ens;
+
             //     bus.attempts = MAX_ATTEMPS;
             // } else {
             //     bus.attempts --;
