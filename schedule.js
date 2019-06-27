@@ -56,12 +56,6 @@ class Schedule {
             bings = res
         });
 
-        // for (let i = 0; i < bings.length; i++) {
-        //     let bingBus = bing.bus_assign;
-        //     let here = await Utils.rget(stops.bus.next_stop, bus);
-        //     bus.eta_next_stop = here.travelTime;
-        // }
-
         for (let i = 0; i < bings.length; i++) {
             bing = bings[i];
             bing.status = STATUS_ACTIVE;
@@ -78,7 +72,7 @@ class Schedule {
                 bus.eta_next_stop = here.travelTime;
                 bus.save();
             } catch (ignored) {
-
+                bus.eta_next_stop = stops[nextStop].eta_stop / 2;
             }
 
             let eta = 0;

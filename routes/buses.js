@@ -23,22 +23,7 @@ module.exports = server => {
             bus.long = req.query.long;
 
             nextStop = await Stop.findOne({num_stop: bus.next_stop});
-            // if (bus.attempts === 0) {
-            //     try {
-            //         here = await Utils.rget(bus, nextStop);
-            //         bus.eta_next_stop = here.travelTime;
-            //     } catch (ignored) {
-            //         console.log("error")
-            //     }
 
-            //     bus.attempts = MAX_ATTEMPS;
-            // } else {
-            //     bus.attempts --;
-            // }
-
-            // if (bus.eta_next_stop === undefined) {
-            //     bus.eta_next_stop = 100;
-            // }
             distanceBusToStop = await Utils.distance(bus, nextStop);
 
             if (distanceBusToStop < nextStop.long_stop) {
@@ -49,9 +34,11 @@ module.exports = server => {
                 bus.next_stop++;
                 bus.status = STATUS_ON;
                 try {
-                    here = await Utils.rget(stop, bus);
+                    here = await Utils.rget(nextStop, bus);
                     bus.eta_next_stop = here.travelTime;
-                } catch (ignored) {}
+                } catch (ignored) {
+                    bus.eta_next_stop = nextStop.eta_stop / 2;
+                }
             }
 
             bus.save();
@@ -70,7 +57,7 @@ module.exports = server => {
                 here = await Utils.rget(stop, bus);
                 bus.eta_next_stop = here.travelTime;
             } catch (ignored) {
-
+                bus.eta_next_stop = stop.eta_stop / 2;
             }
 
             if (bus.eta_next_stop === undefined) {
