@@ -73,7 +73,6 @@ class Schedule {
             } catch (ignored) {
                 console.log("err")
             }
-            console.log(bus.eta_next_stop);
             if (bus.eta_next_stop === undefined) {
                 bus.eta_next_stop = nextStop.eta_stop / 4;
             }

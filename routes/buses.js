@@ -24,7 +24,6 @@ module.exports = server => {
 
             nextStop = await Stop.findOne({num_stop: bus.next_stop});
             try {
-                console.log(await Utils.rget(nextStop, bus));
                 bus.eta_next_stop = await Utils.rget(nextStop, bus);
             } catch (ignored) {
                 console.log("err")
@@ -48,7 +47,7 @@ module.exports = server => {
                 } catch (ignored) {
                     console.log("err")
                 }
-                console.log(bus.eta_next_stop);
+
                 if (bus.eta_next_stop === undefined) {
                     bus.eta_next_stop = nextStop.eta_stop / 4;
                 }
