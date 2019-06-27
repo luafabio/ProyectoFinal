@@ -66,14 +66,15 @@ class Schedule {
                 continue;
             }
 
-            try {
-                let nextStop = bus.next_stop;
-                let here = await Utils.rget(bus, stops[nextStop]);
-                bus.eta_next_stop = here.travelTime;
-                bus.save();
-            } catch (ignored) {
+            let nextStop = bus.next_stop;
+            // try {
+            //     let here = await Utils.rget(bus, stops[nextStop]);
+            //     bus.eta_next_stop = here.travelTime;
+            // } catch (ignored) {
                 bus.eta_next_stop = stops[nextStop].eta_stop / 2;
-            }
+            // }
+            bus.save();
+
 
             let eta = 0;
             eta = bus.eta_next_stop;
