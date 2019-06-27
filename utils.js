@@ -34,7 +34,7 @@ class Utils {
         try {
             return new Promise((resolve, reject) => {
                 let body = [];
-                let url = `https://route.api.here.com/routing/7.2/calculateroute.json?app_id=${APP_ID}&app_code=${APP_CODE}&waypoint0=geo!${pos1.lat},${pos1.long}&waypoint1=geo!${pos2.lat},${pos2.long}&mode=shortest;publicTransport;traffic:enabled`;
+                let url = `https://route.api.here.com/routing/7.2/calculateroute.json?app_id=${APP_ID}&app_code=${APP_CODE}&waypoint0=geo!${pos1.lat},${pos1.long}&waypoint1=geo!${pos2.lat},${pos2.long}&mode=shortest;car;disabled:`;
 
                 https.get(url, (res) => {
                     res.on('data', (chunk) => {
