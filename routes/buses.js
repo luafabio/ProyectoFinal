@@ -35,8 +35,10 @@ module.exports = server => {
                 bus.status = STATUS_ON;
                 try {
                     bus.eta_next_stop = await Utils.rget(nextStop, bus);
+                    console.log(bus.eta_next_stop)
                 } catch (ignored) {
                     bus.eta_next_stop = nextStop.eta_stop / 4;
+                    console.log("err")
                 }
             }
 
