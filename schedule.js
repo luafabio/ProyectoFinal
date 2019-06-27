@@ -91,7 +91,7 @@ class Schedule {
                     console.log(stop.num_stop, eta);
                 }
             }
-            if (eta <= (bing.time * 60 - 60) && bing.status !== STATUS_FINISH) {
+            if (eta <= (bing.time * 60 + 180) && bing.status !== STATUS_FINISH) {
                 bing.status = STATUS_FINISH;
                 await Utils.sendPush(bing.id_user)
             }
