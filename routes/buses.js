@@ -42,15 +42,15 @@ module.exports = server => {
             if (bus.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
                 bus.next_stop++;
                 bus.status = STATUS_ON;
-                try {
-                    bus.eta_next_stop = await Utils.rget(nextStop, bus);
-                } catch (ignored) {
-                    console.log("err")
-                }
-
-                if (bus.eta_next_stop === undefined) {
+                // try {
+                //     bus.eta_next_stop = await Utils.rget(nextStop, bus);
+                // } catch (ignored) {
+                //     console.log("err")
+                // }
+                //
+                // if (bus.eta_next_stop === undefined) {
                     bus.eta_next_stop = nextStop.eta_stop / 4;
-                }
+                // }
             }
 
             await bus.save();

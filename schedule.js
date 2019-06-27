@@ -66,14 +66,14 @@ class Schedule {
             }
 
             let nextStop = bus.next_stop;
-            try {
-                bus.eta_next_stop = await Utils.rget(bus, stops[nextStop]);
-            } catch (ignored) {
-                console.log("err")
-            }
-            if (bus.eta_next_stop === undefined) {
+            // try {
+            //     bus.eta_next_stop = await Utils.rget(bus, stops[nextStop]);
+            // } catch (ignored) {
+            //     console.log("err")
+            // }
+            // if (bus.eta_next_stop === undefined) {
                 bus.eta_next_stop = nextStop.eta_stop / 4;
-            }
+            // }
             bus.save();
 
 
