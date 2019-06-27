@@ -85,7 +85,7 @@ class Schedule {
             }
             if (eta <= (bing.time * 60 + 60) && bing.status !== STATUS_FINISH) {
                 bing.status = STATUS_FINISH;
-                await Utils.sendPush(bing.id_user)
+                await Utils.sendPush(bing.id_user);
                 bing.save();
             }
         }
