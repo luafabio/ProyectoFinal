@@ -63,11 +63,10 @@ class Utils {
         } catch (ignored) {
             console.log("err")
         }
-
-        if (eta_next_stop === undefined || eta_next_stop <= 0) {
-            Math.round(bus.eta_next_stop = stop.eta_stop / 4);
+        if (eta_next_stop >= stop.eta_stop || eta_next_stop === undefined || eta_next_stop <= 0) {
+            eta_next_stop = stop.eta_stop / 4;
+            console.log("cambio: ", eta_next_stop);
         }
-        console.log(1, eta_next_stop);
         return eta_next_stop
     }
 
