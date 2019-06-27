@@ -62,7 +62,7 @@ class Utils {
 
         axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${pos1.lat},${pos1.long}&destination=${pos1.lat},${pos1.long}&key=AIzaSyBCXAzjr6KjZZDAyLu_P8co4UgX8aL78vU`)
             .then(response => {
-                return response.data.routes[0].legs[0].duration.value;
+                return Number.parseInt(response.data.routes[0].legs[0].duration.value);
             })
             .catch(error => {
                 console.log(error);
