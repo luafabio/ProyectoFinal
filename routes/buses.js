@@ -35,7 +35,7 @@ module.exports = server => {
                 bus.eta_next_stop = await calculateDistance(bus, nextStop);
             }
 
-            // await bus.save();
+            await bus.save();
             res.send(200);
 
         } else {
