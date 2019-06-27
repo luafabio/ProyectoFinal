@@ -30,6 +30,7 @@ class Schedule {
                 }
             }
         );
+
         //Calcula el tiempo a la siguiente parada. Ej: parada 16: eta = xx tiempo para llegar a parada 17
         // if (stops.length > 0) {
         //     for (let i = 0; i < stops.length; i++) {

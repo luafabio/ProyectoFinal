@@ -12,7 +12,7 @@ class Utils {
         let serverKey = 'AAAA2bmVM5g:APA91bG-qZT_7x8jsaSeQhx6NnLT3t0q-_R2CoJd2OI_X26Vq_zJ31ddMjlzJMmVIZj39bVnVGgpcOoeprRaMfdf_nBYHZerhKPmjYgJAJHPwTt_jCCfwuB3kQCkWsvjpDJqIY1UWWnM';
         let fcm = new FCM(serverKey);
 
-        let message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+        let message = {
             to: id_user,
 
             notification: {
@@ -30,44 +30,16 @@ class Utils {
         });
     }
 
-    static rget(pos1, pos2) {
-        // try {
-        //     return new Promise((resolve, reject) => {
-        //         let body = [];
-        //         let url = `https://route.api.here.com/routing/7.2/calculateroute.json?app_id=${APP_ID}&app_code=${APP_CODE}&waypoint0=geo!${pos1.lat},${pos1.long}&waypoint1=geo!${pos1.lat},${pos1.long}&mode=shortest;car;disabled:`;
-        //
-        //         https.get(url, (res) => {
-        //             res.on('data', (chunk) => {
-        //                 body.push(chunk);
-        //             });
-        //
-        //             res.on('end', (e) => {
-        //                 let data = JSON.parse(Buffer.concat(body).toString());
-        //
-        //                 if (data.response !== undefined && data.response.route[0] !== undefined) {
-        //                     resolve(data.response.route[0].summary);
-        //                 } else {
-        //                     reject(e);
-        //
-        //                 }
-        //             });
-        //
-        //         }).on('error', (e) => {
-        //             reject(e);
-        //         })
-        //     });
-        // } catch (err) {
-        //     return next(new errors.InvalidContentError(err));
-        // }
-
-        axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${pos1.lat},${pos1.long}&destination=${pos2.lat},${pos2.long}&key=AIzaSyBCXAzjr6KjZZDAyLu_P8co4UgX8aL78vU`)
-            .then(response => {
-                return Number.parseInt(response.data.routes[0].legs[0].duration.value);
-            })
-            .catch(error => {
-                console.log(error);
-                return 100;
-            });
+    static async rget(pos1, pos2) {
+        return new Promise((resolve, reject) => {
+            axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${pos1.lat},${pos1.long}&destination=${pos2.lat},${pos2.long}&key=AIzaSyBCXAzjr6KjZZDAyLu_P8co4UgX8aL78vU`)
+                .then(response => {
+                    resolve(Number.parseInt(response.data.routes[0].legs[0].duration.value));
+                })
+                .catch(error => {
+                    reject(error);
+                });
+        });
     }
 
     static async findObjectByKey(array, key, value) {

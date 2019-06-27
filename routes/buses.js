@@ -24,12 +24,12 @@ module.exports = server => {
 
             nextStop = await Stop.findOne({num_stop: bus.next_stop});
             try {
-                console.log(await Utils.rget(nextStop, bus))
+                console.log(await Utils.rget(nextStop, bus));
                 bus.eta_next_stop = await Utils.rget(nextStop, bus);
             } catch (ignored) {
                 console.log("err")
             }
-            bus.save();
+
             if (bus.eta_next_stop === undefined) {
                 bus.eta_next_stop = nextStop.eta_stop / 4;
             }
@@ -56,6 +56,7 @@ module.exports = server => {
 
             await bus.save();
             res.send(200);
+
         } else {
             if (req.query.next_stop === undefined) {
                 nextStop = 1;
