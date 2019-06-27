@@ -66,8 +66,7 @@ module.exports = server => {
         const prev_stop = await Stop.findOne({num_stop: (num_stop - 1)});
         if (prev_stop !== null) {
             try {
-                summary = await Utils.rget([prev_stop.lat, prev_stop.long], [lat, long]);
-                eta_stop = summary.travelTime;
+                eta_stop = await Utils.rget([prev_stop.lat, prev_stop.long], [lat, long]);
             } catch (err) {
                 // return next(new errors.InternalError("Error al consultar API externa. Intente nuevamente"));
             }

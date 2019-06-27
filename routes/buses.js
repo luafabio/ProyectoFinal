@@ -34,10 +34,9 @@ module.exports = server => {
                 bus.next_stop++;
                 bus.status = STATUS_ON;
                 try {
-                    here = await Utils.rget(nextStop, bus);
-                    bus.eta_next_stop = here.travelTime;
+                    bus.eta_next_stop = await Utils.rget(nextStop, bus);
                 } catch (ignored) {
-                    bus.eta_next_stop = nextStop.eta_stop / 2;
+                    bus.eta_next_stop = nextStop.eta_stop / 4;
                 }
             }
 

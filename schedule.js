@@ -67,22 +67,19 @@ class Schedule {
             }
 
             let nextStop = bus.next_stop;
-            // try {
-            //     let here = await Utils.rget(bus, stops[nextStop]);
-            //     bus.eta_next_stop = here.travelTime;
-            // } catch (ignored) {
+            try {
+                bus.eta_next_stop = await Utils.rget(bus, stops[nextStop]);
+            } catch (ignored) {
                 bus.eta_next_stop = stops[nextStop].eta_stop / 2;
-            // }
+            }
             bus.save();
 
 
             let eta = 0;
-            eta = bus.eta_next_stop;
             for (let j = bus.next_stop; j <= bing.id_stop; j++) {
                 let stop = await Utils.findObjectByKey(stops, "num_stop", j);
                 if (stop !== undefined && stop !== null) {
                     eta += stop.eta_stop;
-                    console.log(stop.num_stop, eta);
                 }
             }
             if (eta <= (bing.time * 60 + 60) && bing.status !== STATUS_FINISH) {

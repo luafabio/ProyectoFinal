@@ -4,7 +4,7 @@ const https = require('https');
 const APP_ID = 'DWUWUsbBLzKwS97z12IJ';
 const APP_CODE = 'DIvI1yH_EVpeRg7489J5SA';
 const FCM = require('fcm-node');
-
+const axios = require('axios');
 
 class Utils {
 
@@ -31,34 +31,42 @@ class Utils {
     }
 
     static async rget(pos1, pos2) {
-        try {
-            return new Promise((resolve, reject) => {
-                let body = [];
-                let url = `https://route.api.here.com/routing/7.2/calculateroute.json?app_id=${APP_ID}&app_code=${APP_CODE}&waypoint0=geo!${pos1.lat},${pos1.long}&waypoint1=geo!${pos2.lat},${pos2.long}&mode=shortest;car;disabled:`;
+        // try {
+        //     return new Promise((resolve, reject) => {
+        //         let body = [];
+        //         let url = `https://route.api.here.com/routing/7.2/calculateroute.json?app_id=${APP_ID}&app_code=${APP_CODE}&waypoint0=geo!${pos1.lat},${pos1.long}&waypoint1=geo!${pos1.lat},${pos1.long}&mode=shortest;car;disabled:`;
+        //
+        //         https.get(url, (res) => {
+        //             res.on('data', (chunk) => {
+        //                 body.push(chunk);
+        //             });
+        //
+        //             res.on('end', (e) => {
+        //                 let data = JSON.parse(Buffer.concat(body).toString());
+        //
+        //                 if (data.response !== undefined && data.response.route[0] !== undefined) {
+        //                     resolve(data.response.route[0].summary);
+        //                 } else {
+        //                     reject(e);
+        //
+        //                 }
+        //             });
+        //
+        //         }).on('error', (e) => {
+        //             reject(e);
+        //         })
+        //     });
+        // } catch (err) {
+        //     return next(new errors.InvalidContentError(err));
+        // }
 
-                https.get(url, (res) => {
-                    res.on('data', (chunk) => {
-                        body.push(chunk);
-                    });
-
-                    res.on('end', (e) => {
-                        let data = JSON.parse(Buffer.concat(body).toString());
-
-                        if (data.response !== undefined && data.response.route[0] !== undefined) {
-                            resolve(data.response.route[0].summary);
-                        } else {
-                            reject(e);
-
-                        }
-                    });
-
-                }).on('error', (e) => {
-                    reject(e);
-                })
+        axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${pos1.lat},${pos1.long}&destination=${pos1.lat},${pos1.long}&key=AIzaSyBCXAzjr6KjZZDAyLu_P8co4UgX8aL78vU`)
+            .then(response => {
+                return response.data.routes[0].legs[0].duration.value;
+            })
+            .catch(error => {
+                console.log(error);
             });
-        } catch (err) {
-            return next(new errors.InvalidContentError(err));
-        }
     }
 
     static async findObjectByKey(array, key, value) {
