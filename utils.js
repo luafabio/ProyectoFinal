@@ -30,7 +30,7 @@ class Utils {
         });
     }
 
-    static async rget(pos1, pos2) {
+    static rget(pos1, pos2) {
         // try {
         //     return new Promise((resolve, reject) => {
         //         let body = [];
