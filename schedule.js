@@ -94,7 +94,6 @@ class Schedule {
                 bing.status = STATUS_FINISH;
                 await Utils.sendPush(bing.id_user)
             }
-            console.log(eta);
 
             bing.save();
 

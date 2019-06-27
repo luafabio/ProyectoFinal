@@ -26,10 +26,12 @@ module.exports = server => {
 
 
             // if (bus.attempts === 0) {
-            //     try {
+                try {
                     here = await Utils.rget(bus, nextStop);
                     bus.eta_next_stop = here.travelTime;
-            //     } catch (ignored) {}
+                } catch (ignored) {
+                    console.log("error")
+                }
             //     bus.attempts = MAX_ATTEMPS;
             // } else {
             //     bus.attempts --;
