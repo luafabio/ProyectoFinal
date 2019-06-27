@@ -43,7 +43,7 @@ module.exports = server => {
                 }
             }
 
-            bus.update();
+            await bus.update();
             res.send(200);
         } else {
             if (req.query.next_stop === undefined) {
@@ -55,14 +55,15 @@ module.exports = server => {
             const stop = await Stop.findOne({ num_stop: nextStop});
             bus = new Bus({imei, lat, long, status: STATUS_ON, next_stop: nextStop});
 
-            try {
-                bus.eta_next_stop = await Utils.rget(stop, bus);
-            } catch (ignored) {
-                console.log("err")
-            }
-            if (bus.eta_next_stop === undefined) {
-                bus.eta_next_stop = nextStop.eta_stop / 4;
-            }
+            // try {
+            //     bus.eta_next_stop = await Utils.rget(stop, bus);
+            // } catch (ignored) {
+            //     console.log("err")
+            // }
+            // if (bus.eta_next_stop === undefined) {
+            console.log(1, bus.eta_next_stop)
+                bus.eta_next_stop = stop.eta_stop / 4;
+            // }
             try {
                 await bus.save();
                 res.send(201);
