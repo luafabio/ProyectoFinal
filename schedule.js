@@ -70,10 +70,13 @@ class Schedule {
             try {
                 bus.eta_next_stop = await Utils.rget(bus, stops[nextStop]);
             } catch (ignored) {
-                bus.eta_next_stop = stops[nextStop].eta_stop / 4;
                 console.log("err")
             }
-            bus.update();
+            console.log(bus.eta_next_stop);
+            if (bus.eta_next_stop === undefined) {
+                bus.eta_next_stop = nextStop.eta_stop / 4;
+            }
+            bus.save();
 
 
             let eta = 0;
