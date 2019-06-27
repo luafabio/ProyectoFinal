@@ -29,6 +29,7 @@ module.exports = server => {
             if (distanceBusToStop < nextStop.long_stop) {
                 bus.status = STATUS_ON_CHANGE;
             }
+            bus.eta_next_stop = await Utils.rget(nextStop, bus);
 
             if (bus.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
                 bus.next_stop++;
@@ -42,7 +43,7 @@ module.exports = server => {
                 }
             }
 
-            bus.save();
+            bus.update();
             res.send(200);
         } else {
             if (req.query.next_stop === undefined) {
@@ -55,14 +56,9 @@ module.exports = server => {
             bus = new Bus({imei, lat, long, status: STATUS_ON, next_stop: nextStop});
 
             try {
-                here = await Utils.rget(stop, bus);
-                bus.eta_next_stop = here.travelTime;
+                bus.eta_next_stop = await Utils.rget(stop, bus);
             } catch (ignored) {
                 bus.eta_next_stop = stop.eta_stop / 2;
-            }
-
-            if (bus.eta_next_stop === undefined) {
-                bus.eta_next_stop = 100;
             }
 
             try {

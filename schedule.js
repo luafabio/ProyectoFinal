@@ -69,12 +69,11 @@ class Schedule {
             let nextStop = bus.next_stop;
             try {
                 bus.eta_next_stop = await Utils.rget(bus, stops[nextStop]);
-                console.log(bus.eta_next_stop)
             } catch (ignored) {
                 bus.eta_next_stop = stops[nextStop].eta_stop / 4;
                 console.log("err")
             }
-            bus.save();
+            bus.update();
 
 
             let eta = 0;
@@ -87,10 +86,8 @@ class Schedule {
             if (eta <= (bing.time * 60 + 60) && bing.status !== STATUS_FINISH) {
                 bing.status = STATUS_FINISH;
                 await Utils.sendPush(bing.id_user)
+                bing.save();
             }
-
-            bing.save();
-
         }
 
         console.log("sincronizacion finalizada");
