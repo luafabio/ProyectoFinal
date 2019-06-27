@@ -74,7 +74,7 @@ class Schedule {
 
             try {
                 let nextStop = bus.next_stop;
-                let here = await Utils.rget(stops[nextStop], bus);
+                let here = await Utils.rget(bus, stops[nextStop]);
                 bus.eta_next_stop = here.travelTime;
                 bus.save();
             } catch (ignored) {
@@ -90,7 +90,7 @@ class Schedule {
                     console.log(stop.num_stop, eta);
                 }
             }
-            if (eta <= (bing.time * 60 + (2* 60)) && bing.status !== STATUS_FINISH) {
+            if (eta <= (bing.time * 60) && bing.status !== STATUS_FINISH) {
                 bing.status = STATUS_FINISH;
                 await Utils.sendPush(bing.id_user)
             }
