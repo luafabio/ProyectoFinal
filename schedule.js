@@ -72,7 +72,7 @@ class Schedule {
             //     console.log("err")
             // }
             // if (bus.eta_next_stop === undefined) {
-            Number.parseInt(bus.eta_next_stop = nextStop.eta_stop / 4);
+            Math.round(bus.eta_next_stop = nextStop.eta_stop / 4);
             // }
             bus.save();
 

@@ -49,7 +49,7 @@ module.exports = server => {
                 // }
                 //
                 // if (bus.eta_next_stop === undefined) {
-                Number.parseInt(bus.eta_next_stop = nextStop.eta_stop / 4);
+                Math.round(bus.eta_next_stop = nextStop.eta_stop / 4);
                 // }
             }
 
@@ -72,7 +72,7 @@ module.exports = server => {
             //     console.log("err")
             // }
             // if (bus.eta_next_stop === undefined) {
-                bus.eta_next_stop = stop.eta_stop / 4;
+            Math.round(bus.eta_next_stop = stop.eta_stop / 4);
             // }
             try {
                 await bus.save();
