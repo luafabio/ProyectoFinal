@@ -68,7 +68,7 @@ class Schedule {
 
             let nextStop = bus.next_stop;
             try {
-                console.log(await Utils.rget(bus, stops[nextStop]))
+                console.log(stops[nextStop]);
                 bus.eta_next_stop = await Utils.rget(bus, stops[nextStop]);
             } catch (ignored) {
                 console.log("err")
