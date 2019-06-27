@@ -57,12 +57,12 @@ if (cluster.isMaster) {
 
     db.on('error', (err) => console.log(err));
 
-    // db.once('open', () => {
-    //     this.ci = setInterval(async () => {
-    //         let schedule = new Schedule();
-    //         schedule.getStops()
-    //     }, 6 * 1000)
-    // })
+    db.once('open', () => {
+        this.ci = setInterval(async () => {
+            let schedule = new Schedule();
+            schedule.getStops()
+        }, 6 * 1000)
+    })
 
 }
 
