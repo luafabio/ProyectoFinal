@@ -67,7 +67,7 @@ class Utils {
         if (eta_next_stop === undefined || eta_next_stop <= 0) {
             Math.round(bus.eta_next_stop = stop.eta_stop / 4);
         }
-
+        console.log(eta_next_stop);
         return eta_next_stop
     }
 
