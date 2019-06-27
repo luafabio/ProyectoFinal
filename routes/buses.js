@@ -23,7 +23,7 @@ module.exports = server => {
             bus.long = req.query.long;
 
             nextStop = await Stop.findOne({num_stop: bus.next_stop});
-
+            console.log(nextStop);
 
             // if (bus.attempts === 0) {
                 try {
