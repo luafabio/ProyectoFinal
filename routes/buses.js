@@ -14,7 +14,6 @@ module.exports = server => {
         let bus;
         let nextStop;
         let distanceBusToStop = 0.0;
-        let here;
 
         bus = await Bus.findOne({imei: req.query.imei});
 
@@ -23,15 +22,6 @@ module.exports = server => {
             bus.long = req.query.long;
 
             nextStop = await Stop.findOne({num_stop: bus.next_stop});
-            try {
-                bus.eta_next_stop = await Utils.rget(nextStop, bus);
-            } catch (ignored) {
-                console.log("err")
-            }
-
-            if (bus.eta_next_stop === undefined) {
-                Number.parseInt(bus.eta_next_stop = nextStop.eta_stop / 4);
-            }
 
             distanceBusToStop = await Utils.distance(bus, nextStop);
 
@@ -42,15 +32,7 @@ module.exports = server => {
             if (bus.status === STATUS_ON_CHANGE && distanceBusToStop >= nextStop.long_stop) {
                 bus.next_stop++;
                 bus.status = STATUS_ON;
-                // try {
-                //     bus.eta_next_stop = await Utils.rget(nextStop, bus);
-                // } catch (ignored) {
-                //     console.log("err")
-                // }
-                //
-                // if (bus.eta_next_stop === undefined) {
-                Math.round(bus.eta_next_stop = nextStop.eta_stop / 4);
-                // }
+                bus.eta_next_stop = await calculateDistance(bus, nextStop);
             }
 
             await bus.save();
@@ -65,15 +47,8 @@ module.exports = server => {
 
             const stop = await Stop.findOne({ num_stop: nextStop});
             bus = new Bus({imei, lat, long, status: STATUS_ON, next_stop: nextStop});
+            bus.eta_next_stop = Utils.calculateDistance(bus, stop);
 
-            // try {
-            //     bus.eta_next_stop = await Utils.rget(stop, bus);
-            // } catch (ignored) {
-            //     console.log("err")
-            // }
-            // if (bus.eta_next_stop === undefined) {
-            Math.round(bus.eta_next_stop = stop.eta_stop / 4);
-            // }
             try {
                 await bus.save();
                 res.send(201);

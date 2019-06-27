@@ -55,6 +55,22 @@ class Utils {
         return Math.sqrt(Math.pow(stop.lat - bus.lat, 2) + Math.pow(stop.long - bus.long, 2)) * 10000
     }
 
+    static async calculateDistance(bus, stop) {
+        let eta_next_stop = 0;
+
+        try {
+            eta_next_stop = await Utils.rget(stop, bus);
+        } catch (ignored) {
+            console.log("err")
+        }
+
+        if (eta_next_stop === undefined || eta_next_stop <= 0) {
+            Math.round(bus.eta_next_stop = stop.eta_stop / 4);
+        }
+
+        return eta_next_stop
+    }
+
 }
 
 module.exports = Utils;

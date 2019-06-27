@@ -58,22 +58,19 @@ class Schedule {
         for (let i = 0; i < bings.length; i++) {
             bing = bings[i];
             bing.status = STATUS_ACTIVE;
+
             await Bus.find({imei: bing.bus_assign}).exec().then(res => {
                 bus = res[0]
             });
+
             if (bus === undefined || bus === null) {
                 continue;
             }
 
             let nextStop = bus.next_stop;
-            // try {
-            //     bus.eta_next_stop = await Utils.rget(bus, stops[nextStop]);
-            // } catch (ignored) {
-            //     console.log("err")
-            // }
-            // if (bus.eta_next_stop === undefined) {
-            Math.round(bus.eta_next_stop = nextStop.eta_stop / 4);
-            // }
+
+            bus.eta_next_stop = Utils.calculateDistance(bus, stops[nextStop]);
+
             bus.save();
 
 
