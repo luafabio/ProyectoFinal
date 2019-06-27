@@ -38,12 +38,13 @@ module.exports = server => {
                 } catch (ignored) {
                     console.log("err")
                 }
+                console.log(bus.eta_next_stop);
                 if (bus.eta_next_stop === undefined) {
                     bus.eta_next_stop = nextStop.eta_stop / 4;
                 }
             }
 
-            await bus.update();
+            await bus.save();
             res.send(200);
         } else {
             if (req.query.next_stop === undefined) {
@@ -61,7 +62,6 @@ module.exports = server => {
             //     console.log("err")
             // }
             // if (bus.eta_next_stop === undefined) {
-            console.log(1, bus.eta_next_stop)
                 bus.eta_next_stop = stop.eta_stop / 4;
             // }
             try {
