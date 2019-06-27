@@ -23,25 +23,22 @@ module.exports = server => {
             bus.long = req.query.long;
 
             nextStop = await Stop.findOne({num_stop: bus.next_stop});
-            let ens = 0;
             // if (bus.attempts === 0) {
-                try {
-                    here = await Utils.rget(bus, nextStop);
-                    ens = here.travelTime;
-                    console.log(ens);
-                } catch (ignored) {
-                    console.log("error")
-                }
-            bus.eta_next_stop = ens;
+            //     try {
+            //         here = await Utils.rget(bus, nextStop);
+            //         bus.eta_next_stop = here.travelTime;
+            //     } catch (ignored) {
+            //         console.log("error")
+            //     }
 
             //     bus.attempts = MAX_ATTEMPS;
             // } else {
             //     bus.attempts --;
             // }
 
-            if (bus.eta_next_stop === undefined) {
-                bus.eta_next_stop = 100;
-            }
+            // if (bus.eta_next_stop === undefined) {
+            //     bus.eta_next_stop = 100;
+            // }
             distanceBusToStop = await Utils.distance(bus, nextStop);
 
             if (distanceBusToStop < nextStop.long_stop) {
