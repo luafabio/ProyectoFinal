@@ -51,8 +51,6 @@ class Schedule {
         //     console.log("cannot get stops");
         // }
 
-
-
         await Bing.find({'status': {$ne: STATUS_FINISH}}).exec().then(res => {
             bings = res
         });
