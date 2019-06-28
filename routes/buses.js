@@ -5,8 +5,8 @@ const Utils = require('../utils');
 
 module.exports = server => {
 
-    const STATUS_ON = 'on';
-    const STATUS_ON_CHANGE = 'on_change';
+    const STATUS_ON = 'Activo';
+    const STATUS_ON_CHANGE = 'Cambio';
     const MAX_ATTEMPS = '3';
 
     server.get('/buses', async (req, res, next) => {
