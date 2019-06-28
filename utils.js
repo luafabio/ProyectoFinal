@@ -60,12 +60,13 @@ class Utils {
 
         try {
             eta_next_stop = await Utils.rget(bus, stop);
+            console.log("normal: ", eta_next_stop);
         } catch (ignored) {
             console.log("err")
         }
         if (eta_next_stop >= stop.eta_stop || eta_next_stop === undefined || eta_next_stop <= 0) {
             eta_next_stop = stop.eta_stop / 2;
-            console.log("cambio: ", eta_next_stop);
+            console.log("hardc: ", eta_next_stop);
         }
         return eta_next_stop
     }
