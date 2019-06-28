@@ -59,12 +59,12 @@ class Utils {
         let eta_next_stop = 0;
 
         try {
-            eta_next_stop = await Utils.rget(stop, bus);
+            eta_next_stop = await Utils.rget(bus, stop);
         } catch (ignored) {
             console.log("err")
         }
         if (eta_next_stop >= stop.eta_stop || eta_next_stop === undefined || eta_next_stop <= 0) {
-            eta_next_stop = stop.eta_stop / 4;
+            eta_next_stop = stop.eta_stop / 2;
             console.log("cambio: ", eta_next_stop);
         }
         return eta_next_stop
